@@ -1,8 +1,7 @@
 #include "mano_lib.h"
 
 int main(){
-    int n=3;
-    double sum=0;
+    int n=1;
     Stud studentai[n];
     for(int i=0; i<n; i++)
     {
@@ -13,8 +12,12 @@ int main(){
         for(int ii=0; ii<n; ii++)
         {
             cin >> studentai[i].nd[ii];
-            sum += studentai[i].nd[ii];
+            studentai[i].sum += studentai[i].nd[ii];
         }
+        studentai[i].vid=studentai[i].sum/n;
     }
-    double vid=sum/n;
+    for(int i=0; i<n; i++)
+    {
+        cout << (studentai[i].vid*0.4)+(studentai[i].egz*0.6) << endl;
+    }
 }
