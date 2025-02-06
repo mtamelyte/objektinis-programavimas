@@ -8,6 +8,6 @@ using std::string;
 
 struct Stud{
     string var, pav;
-    int nd[5];
+    int nd[3];
     int egz;
-}
+};
