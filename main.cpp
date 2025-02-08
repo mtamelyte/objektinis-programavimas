@@ -1,7 +1,7 @@
 #include "mano_lib.h"
 
 
-void Ivedimas(Stud s[], int n){
+void Ivedimas(Stud s[], int n, int & p){
     for(int i=0; i<n; i++ )
     {
         cout << "Iveskite studento varda: ";
@@ -15,12 +15,11 @@ void Ivedimas(Stud s[], int n){
         {
             cin >> s[i].nd[ii];
         }
-        sort(s[i].nd, s[i].nd+5);
-        for(int ii=0; ii<5; ii++)
-        {
-            cout << s[i].nd[ii] << endl;
-        }
     }
+        cout << "Galutinio balo skaičiavimui norėtum naudoti: " << endl;
+        cout << "1 - vidurkį" << endl;
+        cout << "2 - medianą" << endl;
+        cin >> p;
 }
 
 double Vidurkis(int nd[]){
@@ -34,11 +33,12 @@ double Vidurkis(int nd[]){
     return vid;
 }
 
-double Mediana(){
-
+double Mediana(int nd[]){
+    sort(nd, nd+5);
+    return nd[2];
 }
 
-void Isvedimas(Stud s[], int n){
+void Isvedimas(Stud s[], int n, int p){
     cout << setw(12) << left << "Pavardė";
     cout << setw(12) << "Vardas";
     cout << setw(16) << "Galutinis (Vid.)" << endl;
@@ -47,13 +47,14 @@ void Isvedimas(Stud s[], int n){
     {
         cout << setw(12) << s[i].pav;
         cout << setw(12) << s[i].var;
-        cout << setw(16) << (Vidurkis(s[i].nd)*0.4)+(s[i].egz*0.6) << endl;
+        if(p==1)  cout << setw(16) << (Vidurkis(s[i].nd)*0.4)+(s[i].egz*0.6) << endl;
+        else if(p==2) cout << setw(16) << (Mediana(s[i].nd)*0.4)+(s[i].egz*0.6) << endl;
     }
 }
 
 int main(){
-    int n=1;
+    int n=1, p;
     Stud studentai[n];
-    Ivedimas(studentai, n);
-    Isvedimas(studentai, n);
+    Ivedimas(studentai, n, p);
+    Isvedimas(studentai, n, p);
 }
