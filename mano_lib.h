@@ -8,11 +8,10 @@ using std::string;
 using std::setw;
 using std::left;
 using std::right;
+using std::sort;
 
 struct Stud{
     string var, pav;
     int nd[5];
     int egz;
-    double sum=0;
-    double vid;
 };
