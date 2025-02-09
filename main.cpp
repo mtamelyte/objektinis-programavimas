@@ -15,6 +15,7 @@ void Ivedimas(Stud s[], int n, int & p){
         {
             cin >> s[i].nd[ii];
         }
+
     }
         cout << "Galutinio balo skaičiavimui norėtum naudoti: " << endl;
         cout << "1 - vidurkį" << endl;
@@ -41,14 +42,15 @@ double Mediana(int nd[]){
 void Isvedimas(Stud s[], int n, int p){
     cout << setw(12) << left << "Pavardė";
     cout << setw(12) << "Vardas";
-    cout << setw(16) << "Galutinis (Vid.)" << endl;
+    if(p==1) cout << setw(16) << "Galutinis (Vid.)" << endl;
+    else if(p==2) cout << setw(16) << "Galutinis (Med.)" << endl;
     cout << "----------------------------------------" << endl;
     for(int i=0; i<n; i++)
     {
         cout << setw(12) << s[i].pav;
         cout << setw(12) << s[i].var;
-        if(p==1)  cout << setw(16) << (Vidurkis(s[i].nd)*0.4)+(s[i].egz*0.6) << endl;
-        else if(p==2) cout << setw(16) << (Mediana(s[i].nd)*0.4)+(s[i].egz*0.6) << endl;
+        if(p==1)  cout << setw(16) << fixed << setprecision(2) << (Vidurkis(s[i].nd)*0.4)+(s[i].egz*0.6) << endl;
+        else if(p==2) cout << setw(16) << fixed << setprecision(2) << (Mediana(s[i].nd)*0.4)+(s[i].egz*0.6) << endl;
     }
 }
 

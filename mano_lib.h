@@ -9,7 +9,8 @@ using std::setw;
 using std::left;
 using std::right;
 using std::sort;
-
+using std::fixed;
+using std::setprecision;
 struct Stud{
     string var, pav;
     int nd[5];
