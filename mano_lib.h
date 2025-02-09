@@ -13,6 +13,6 @@ using std::fixed;
 using std::setprecision;
 struct Stud{
     string var, pav;
-    int nd[5];
+    vector <int> nd;
     int egz;
 };

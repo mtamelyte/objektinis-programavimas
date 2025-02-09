@@ -1,62 +1,86 @@
 #include "mano_lib.h"
 
-
-void Ivedimas(Stud s[], int n, int & p){
-    for(int i=0; i<n; i++ )
+void Ivedimas(vector <Stud> & s, int n, int &p)
+{
+    bool nstud = true, npaz;
+    int paz, pas;
+    while (nstud)
     {
+        Stud laik;
+        npaz = true;
         cout << "Iveskite studento varda: ";
-        cin >> s[i].var;
+        cin >> laik.var;
         cout << "Iveskite studento pavarde: ";
-        cin >> s[i].pav;
+        cin >> laik.pav;
         cout << "Iveskite studento egzamino rezultata: ";
-        cin >> s[i].egz;
-        cout << "Iveskite studento tarpinius rezultatus: ";
-        for(int ii=0; ii<5; ii++)
+        cin >> laik.egz;
+        while (npaz)
         {
-            cin >> s[i].nd[ii];
+            cout << "Iveskite studento namu darbu pazymi: ";
+            cin >> paz;
+            laik.nd.push_back(paz);
+            cout << "Ar norite ivesti dar viena pazymi?" << endl;
+            cout << "1 - taip" << endl;
+            cout << "2 - ne" << endl;
+            cin >> pas;
+            if (pas == 2)
+                npaz = false;
         }
-
+        s.push_back(laik);
+        cout << "Ar norite ivesti dar viena studenta?" << endl;
+        cout << "1 - taip" << endl;
+        cout << "2 - ne" << endl;
+        cin >> pas;
+        if(pas ==2 ) nstud=false;
     }
-        cout << "Galutinio balo skaičiavimui norėtum naudoti: " << endl;
-        cout << "1 - vidurkį" << endl;
-        cout << "2 - medianą" << endl;
-        cin >> p;
+    cout << "Galutinio balo skaičiavimui norėtum naudoti: " << endl;
+    cout << "1 - vidurkį" << endl;
+    cout << "2 - medianą" << endl;
+    cin >> p;
 }
 
-double Vidurkis(int nd[]){
-    double sum=0;
+double Vidurkis(vector <int> nd)
+{
+    double sum = 0;
     double vid;
-        for(int i; i<5; i++)
-        {
-            sum += nd[i];
-        }
-        vid=sum/5;
+    for (int i; i < 5; i++)
+    {
+        sum += nd[i];
+    }
+    vid = sum / 5;
     return vid;
 }
 
-double Mediana(int nd[]){
-    sort(nd, nd+5);
+double Mediana(vector <int> nd)
+{
+    sort(nd.begin(), nd.end());
     return nd[2];
 }
 
-void Isvedimas(Stud s[], int n, int p){
+void Isvedimas(vector <Stud> s, int n, int p)
+{
     cout << setw(12) << left << "Pavardė";
     cout << setw(12) << "Vardas";
-    if(p==1) cout << setw(16) << "Galutinis (Vid.)" << endl;
-    else if(p==2) cout << setw(16) << "Galutinis (Med.)" << endl;
+    if (p == 1)
+        cout << setw(16) << "Galutinis (Vid.)" << endl;
+    else if (p == 2)
+        cout << setw(16) << "Galutinis (Med.)" << endl;
     cout << "----------------------------------------" << endl;
-    for(int i=0; i<n; i++)
+    for (Stud i : s)
     {
-        cout << setw(12) << s[i].pav;
-        cout << setw(12) << s[i].var;
-        if(p==1)  cout << setw(16) << fixed << setprecision(2) << (Vidurkis(s[i].nd)*0.4)+(s[i].egz*0.6) << endl;
-        else if(p==2) cout << setw(16) << fixed << setprecision(2) << (Mediana(s[i].nd)*0.4)+(s[i].egz*0.6) << endl;
+        cout << setw(12) << i.pav;
+        cout << setw(12) << i.var;
+        if (p == 1)
+            cout << setw(16) << fixed << setprecision(2) << (Vidurkis(i.nd) * 0.4) + (i.egz * 0.6) << endl;
+        else if (p == 2)
+            cout << setw(16) << fixed << setprecision(2) << (Mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
     }
 }
 
-int main(){
-    int n=1, p;
-    Stud studentai[n];
+int main()
+{
+    int n = 1, p;
+    vector<Stud> studentai;
     Ivedimas(studentai, n, p);
     Isvedimas(studentai, n, p);
 }
