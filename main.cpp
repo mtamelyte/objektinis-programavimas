@@ -42,19 +42,20 @@ void Ivedimas(vector <Stud> & s, int n, int &p)
 double Vidurkis(vector <int> nd)
 {
     double sum = 0;
-    double vid;
-    for (int i; i < 5; i++)
+    for (int i : nd)
     {
-        sum += nd[i];
+        sum += i;
     }
-    vid = sum / 5;
-    return vid;
+    return sum / nd.size();
 }
 
 double Mediana(vector <int> nd)
 {
+    int dydis;
     sort(nd.begin(), nd.end());
-    return nd[2];
+    dydis=nd.size();
+    if(dydis%2==0) return (nd[dydis/2]+nd[(dydis/2)-1])/2;
+    else return nd[floor(nd.size()/2)];
 }
 
 void Isvedimas(vector <Stud> s, int n, int p)

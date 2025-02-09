@@ -7,10 +7,10 @@ using std::endl;
 using std::string;
 using std::setw;
 using std::left;
-using std::right;
 using std::sort;
 using std::fixed;
 using std::setprecision;
+using std::floor;
 struct Stud{
     string var, pav;
     vector <int> nd;
