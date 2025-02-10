@@ -16,3 +16,10 @@ struct Stud{
     vector <int> nd;
     int egz;
 };
+
+struct Stud1{
+    string var, pav;
+    int* nd{nullptr};
+    int n=0;
+    int egz;
+};
