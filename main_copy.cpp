@@ -1,18 +1,18 @@
 #include "mano_lib.h"
 
-void NaujasPaz(Stud1 & s, int laikp)
+void NaujasPaz(Stud1 &s, int laikp)
 {
     int *kopija = new int[s.n];
-    for (int i = 0; i < s.n-1; i++)
-        {
-            kopija[i] = s.nd[i];
-        }
-    kopija[s.n-1] = laikp;
+    for (int i = 0; i < s.n - 1; i++)
+    {
+        kopija[i] = s.nd[i];
+    }
+    kopija[s.n - 1] = laikp;
     delete[] s.nd;
     s.nd = kopija;
 }
 
-void Ivedimas(vector <Stud1> &s, int &p)
+void Ivedimas(vector<Stud1> &s, int &p)
 {
     bool nstud = true, npaz;
     int paz, pas, laikp;
@@ -31,8 +31,8 @@ void Ivedimas(vector <Stud1> &s, int &p)
         {
             cout << "Iveskite studento namu darbu pazymi: ";
             cin >> laikp;
-            s[s.size()-1].n++;
-            NaujasPaz(s[s.size()-1], laikp);
+            s[s.size() - 1].n++;
+            NaujasPaz(s[s.size() - 1], laikp);
             cout << "Ar norite ivesti dar viena pazymi?" << endl;
             cout << "1 - taip" << endl;
             cout << "2 - ne" << endl;
@@ -53,28 +53,31 @@ void Ivedimas(vector <Stud1> &s, int &p)
     cin >> p;
 }
 
-double Vidurkis(vector<int> nd)
+double Vidurkis(int *nd, int n)
 {
     double sum = 0;
-    for (int i : nd)
+    for (int i = 0; i < n; i++)
     {
-        sum += i;
+        sum += nd[i];
     }
-    return sum / nd.size();
+    return sum / n;
 }
 
-double Mediana(vector<int> nd)
+double Mediana(int *nd, int n)
 {
-    int dydis;
-    sort(nd.begin(), nd.end());
-    dydis = nd.size();
-    if (dydis % 2 == 0)
-        return (nd[dydis / 2] + nd[(dydis / 2) - 1]) / 2;
+    sort(nd, nd + n);
+    int sk;
+    if (n % 2 == 0)
+        sk = (nd[n / 2] + nd[(n / 2) - 1]) / 2;
     else
-        return nd[floor(nd.size() / 2)];
+    {
+        int indeksas = floor(n / 2);
+        sk = nd[indeksas];
+    }
+    return sk;
 }
-/*
-void Isvedimas(vector <Stud1> s, int n, int p)
+
+void Isvedimas(vector<Stud1> s, int p)
 {
     cout << setw(12) << left << "Pavardė";
     cout << setw(12) << "Vardas";
@@ -88,24 +91,16 @@ void Isvedimas(vector <Stud1> s, int n, int p)
         cout << setw(12) << i.pav;
         cout << setw(12) << i.var;
         if (p == 1)
-            cout << setw(16) << fixed << setprecision(2) << (Vidurkis(i.nd) * 0.4) + (i.egz * 0.6) << endl;
+            cout << setw(16) << fixed << setprecision(2) << (Vidurkis(i.nd, i.n) * 0.4) + (i.egz * 0.6) << endl;
         else if (p == 2)
-            cout << setw(16) << fixed << setprecision(2) << (Mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
+            cout << setw(16) << fixed << setprecision(2) << (Mediana(i.nd, i.n) * 0.4) + (i.egz * 0.6) << endl;
     }
 }
-*/
+
 int main()
 {
     int p;
     vector<Stud1> studentai;
     Ivedimas(studentai, p);
-    for (Stud1 i : studentai)
-    {
-        cout << i.var << " " << i.pav << endl;
-        for (int ii = 0; ii < i.n; ii++)
-        {
-            cout << i.nd[ii] << endl;
-        }
-    }
-    // Isvedimas(studentai, n, p);
+    Isvedimas(studentai, p);
 }
