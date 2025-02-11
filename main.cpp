@@ -2,9 +2,9 @@
 
 void VardoIvedimas(Stud &laik)
 {
-    cout << "Iveskite studento varda: ";
+    cout << "Įveskite studento vardą: ";
     cin >> laik.var;
-    cout << "Iveskite studento pavarde: ";
+    cout << "Įveskite studento pavardę: ";
     cin >> laik.pav;
 }
 
@@ -12,14 +12,14 @@ void PazymiuIvedimas(Stud &laik)
 {
     bool npaz = true;
     int paz, pas;
-    cout << "Iveskite studento egzamino rezultata: ";
+    cout << "Įveskite studento egzamino rezultatą: ";
     cin >> laik.egz;
     while (npaz)
     {
-        cout << "Iveskite studento namu darbu pazymi: ";
+        cout << "Įveskite studento namų darbų pažymį: ";
         cin >> paz;
         laik.nd.push_back(paz);
-        cout << "Ar norite ivesti dar viena pazymi?" << endl;
+        cout << "Ar norite įvesti dar vieną pažymį?" << endl;
         cout << "1 - taip" << endl;
         cout << "2 - ne" << endl;
         cin >> pas;
@@ -74,7 +74,7 @@ void Ivedimas(vector<Stud> &s, int &p)
             PazGeneravimas(laik);
         }
         s.push_back(laik);
-        cout << "Ar norite ivesti dar viena studenta?" << endl;
+        cout << "Ar norite įvesti dar vieną studentą?" << endl;
         cout << "1 - taip" << endl;
         cout << "2 - ne" << endl;
         cin >> pas;
@@ -136,10 +136,14 @@ int main()
     cout << "4 - Baigti darbą" << endl;
     cin >> p;
     if (p != 4)
+    {
         Ivedimas(studentai, p);
-    cout << "Galutinio balo skaičiavimui norėtum naudoti: " << endl;
-    cout << "1 - vidurkį" << endl;
-    cout << "2 - medianą" << endl;
-    cin >> k;
-    Isvedimas(studentai, p, k);
+        cout << "Galutinio balo skaičiavimui norėtum naudoti: " << endl;
+        cout << "1 - vidurkį" << endl;
+        cout << "2 - medianą" << endl;
+        cin >> k;
+        Isvedimas(studentai, p, k);
+    }
+    if (p == 4)
+        return 0;
 }
