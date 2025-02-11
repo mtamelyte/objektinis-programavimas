@@ -60,6 +60,10 @@
     "initializer_list": "cpp",
     "utility": "cpp",
     "xstring": "cpp",
-    "xutility": "cpp"
+    "xutility": "cpp",
+    "iostream": "cpp",
+    "ostream": "cpp",
+    "ios": "cpp",
+    "xiosbase": "cpp"
   }
 }

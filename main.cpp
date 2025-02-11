@@ -1,18 +1,16 @@
 #include "mano_lib.h"
 
-void Ivedimas(vector <Stud> & s, int n, int &p)
-{
-    bool nstud = true, npaz;
-    int paz, pas;
-    while (nstud)
-    {
-        Stud laik;
-        npaz = true;
-        cout << "Iveskite studento varda: ";
+void VardoIvedimas(Stud & laik){
+    cout << "Iveskite studento varda: ";
         cin >> laik.var;
         cout << "Iveskite studento pavarde: ";
         cin >> laik.pav;
-        cout << "Iveskite studento egzamino rezultata: ";
+}
+
+void PazymiuIvedimas(Stud & laik){
+    bool npaz = true;
+    int paz, pas;
+    cout << "Iveskite studento egzamino rezultata: ";
         cin >> laik.egz;
         while (npaz)
         {
@@ -26,6 +24,28 @@ void Ivedimas(vector <Stud> & s, int n, int &p)
             if (pas == 2)
                 npaz = false;
         }
+}
+
+void PazGeneravimas(Stud & laik)
+{
+    srand(time(NULL));
+    laik.egz=(rand()%10)+1;
+    for(int i=0; i< rand()+1; i++)
+    {
+        laik.nd.push_back((rand()%10)+1);
+    }
+}
+
+void Ivedimas(vector <Stud> & s, int &p)
+{
+    bool nstud = true;
+    int pas;
+    while (nstud)
+    {
+        Stud laik;
+        VardoIvedimas(laik);
+        if (p==1) PazymiuIvedimas(laik);
+        else if(p==2) PazGeneravimas(laik);
         s.push_back(laik);
         cout << "Ar norite ivesti dar viena studenta?" << endl;
         cout << "1 - taip" << endl;
@@ -33,10 +53,6 @@ void Ivedimas(vector <Stud> & s, int n, int &p)
         cin >> pas;
         if(pas ==2 ) nstud=false;
     }
-    cout << "Galutinio balo skaičiavimui norėtum naudoti: " << endl;
-    cout << "1 - vidurkį" << endl;
-    cout << "2 - medianą" << endl;
-    cin >> p;
 }
 
 double Vidurkis(vector <int> nd)
@@ -58,30 +74,41 @@ double Mediana(vector <int> nd)
     else return nd[floor(nd.size()/2)];
 }
 
-void Isvedimas(vector <Stud> s, int n, int p)
+void Isvedimas(vector <Stud> s, int p, int k)
 {
     cout << setw(12) << left << "Pavardė";
-    cout << setw(12) << "Vardas";
-    if (p == 1)
+    cout << setw(16) << "Vardas";
+    if (k == 1)
         cout << setw(16) << "Galutinis (Vid.)" << endl;
-    else if (p == 2)
+    else if (k == 2)
         cout << setw(16) << "Galutinis (Med.)" << endl;
     cout << "----------------------------------------" << endl;
     for (Stud i : s)
     {
-        cout << setw(12) << i.pav;
+        cout << setw(15) << i.pav;
         cout << setw(12) << i.var;
-        if (p == 1)
+        if (k== 1)
             cout << setw(16) << fixed << setprecision(2) << (Vidurkis(i.nd) * 0.4) + (i.egz * 0.6) << endl;
-        else if (p == 2)
+        else if (k == 2)
             cout << setw(16) << fixed << setprecision(2) << (Mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
     }
 }
 
 int main()
 {
-    int n = 1, p;
+    int k, p;
     vector<Stud> studentai;
-    Ivedimas(studentai, n, p);
-    Isvedimas(studentai, n, p);
+    cout << "Ką norėtum daryti?" << endl;
+    cout << "1 - Suvesti duomenis ranka" << endl;
+    cout << "2 - Sugeneruoti pažymius" << endl;
+    cout << "3 - Sugeneruoti pažymius, vardus ir pavardes" << endl;
+    cout << "4 - Baigti darbą" << endl;
+    cin >> p;
+    if (p == 1 || p==2)
+        Ivedimas(studentai, p);
+    cout << "Galutinio balo skaičiavimui norėtum naudoti: " << endl;
+    cout << "1 - vidurkį" << endl;
+    cout << "2 - medianą" << endl;
+    cin >> k;
+    Isvedimas(studentai, p, k);
 }
