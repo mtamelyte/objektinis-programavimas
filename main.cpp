@@ -148,7 +148,12 @@ void Isvedimas(vector<Stud> s, int p, int k)
     }
 }
 
-void NuskIsvedimas(vector<Stud> s, int k)
+bool PagalVarda(Stud & a, Stud & b)
+{
+    return a.var<b.var;
+}
+
+void NuskIsvedimas(vector<Stud> s)
 {
     cout << setw(12) << left << "Vardas";
     cout << setw(16) << "Pavardė";
@@ -186,7 +191,8 @@ int main()
         cout << "3 - pagal vidurkį" << endl;
         cout << "4 - pagal medianą" << endl;
         cin >> k;
-        NuskIsvedimas(studentai, k);
+        if(k==1) sort(studentai.begin(), studentai.end(), PagalVarda);
+        NuskIsvedimas(studentai);
         break;
     case 5:
         return 0;
