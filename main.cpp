@@ -83,6 +83,30 @@ void Ivedimas(vector<Stud> &s, int &p)
     }
 }
 
+void Nuskaitymas(vector<Stud> & s)
+{
+    ifstream fin("kursiokai.txt");
+    Stud laik;
+    int sk;
+    while (!fin.eof())
+    {
+        fin >> ws;
+        fin >> laik.var >> laik.pav;
+        string pazymiai;
+        getline(fin, pazymiai);
+        istringstream is(pazymiai);
+        while (is >> sk)
+        {
+            {
+                laik.nd.push_back(sk);
+            }
+        }
+        laik.egz=laik.nd.back();
+        laik.nd.pop_back();
+        s.push_back(laik);
+    }
+}
+
 double Vidurkis(vector<int> nd)
 {
     double sum = 0;
@@ -124,6 +148,22 @@ void Isvedimas(vector<Stud> s, int p, int k)
     }
 }
 
+void NuskIsvedimas(vector<Stud> s, int k)
+{
+    cout << setw(12) << left << "Vardas";
+    cout << setw(16) << "Pavardė";
+        cout << setw(20) << "Galutinis (Vid.)";
+        cout << setw(20) << "Galutinis (Med.)" << endl;
+    cout << "--------------------------------------------------" << endl;
+    for (Stud i : s)
+    {
+        cout << setw(12) << i.var;
+        cout << setw(16) << i.pav;
+            cout << setw(20) << fixed << setprecision(2) << (Vidurkis(i.nd) * 0.4) + (i.egz * 0.6);
+            cout << setw(20) << fixed << setprecision(2) << (Mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
+    }
+}
+
 int main()
 {
     srand(time(NULL));
@@ -133,9 +173,25 @@ int main()
     cout << "1 - Suvesti duomenis ranka" << endl;
     cout << "2 - Sugeneruoti pažymius" << endl;
     cout << "3 - Sugeneruoti pažymius, vardus ir pavardes" << endl;
-    cout << "4 - Baigti darbą" << endl;
+    cout << "4 - Nuskaityti duomenis iš failo" << endl;
+    cout << "5 - Baigti darbą" << endl;
     cin >> p;
-    if (p != 4)
+    switch (p)
+    {
+    case 4:
+        Nuskaitymas(studentai);
+        cout << "Kaip norėtum surūšiuoti rezultatus?" << endl;
+        cout << "1 - pagal vardą" << endl;
+        cout << "2 - pagal pavardę" << endl;
+        cout << "3 - pagal vidurkį" << endl;
+        cout << "4 - pagal medianą" << endl;
+        cin >> k;
+        NuskIsvedimas(studentai, k);
+        break;
+    case 5:
+        return 0;
+        break;
+    default:
     {
         Ivedimas(studentai, p);
         cout << "Galutinio balo skaičiavimui norėtum naudoti: " << endl;
@@ -144,6 +200,6 @@ int main()
         cin >> k;
         Isvedimas(studentai, p, k);
     }
-    if (p == 4)
-        return 0;
+    break;
+    }
 }

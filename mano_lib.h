@@ -11,6 +11,10 @@ using std::sort;
 using std::fixed;
 using std::setprecision;
 using std::floor;
+using std::ws;
+using std::ifstream;
+using std::istringstream;
+
 struct Stud{
     string var, pav;
     vector <int> nd;
