@@ -153,13 +153,28 @@ bool PagalVarda(Stud & a, Stud & b)
     return a.var<b.var;
 }
 
+bool PagalPavarde(Stud & a, Stud & b)
+{
+    return b.pav>a.pav;
+}
+
+bool PagalVidurki(Stud & a, Stud & b)
+{
+    return (Vidurkis(b.nd) * 0.4) + (b.egz * 0.6)>(Vidurkis(a.nd) * 0.4) + (a.egz * 0.6);
+}
+
+bool PagalMediana(Stud & a, Stud & b)
+{
+    return (Mediana(b.nd) * 0.4) + (b.egz * 0.6)>(Mediana(a.nd) * 0.4) + (a.egz * 0.6);
+}
+
 void NuskIsvedimas(vector<Stud> s)
 {
     cout << setw(12) << left << "Vardas";
     cout << setw(16) << "Pavardė";
         cout << setw(20) << "Galutinis (Vid.)";
         cout << setw(20) << "Galutinis (Med.)" << endl;
-    cout << "--------------------------------------------------" << endl;
+    cout << "--------------------------------------------------------------" << endl;
     for (Stud i : s)
     {
         cout << setw(12) << i.var;
@@ -192,6 +207,9 @@ int main()
         cout << "4 - pagal medianą" << endl;
         cin >> k;
         if(k==1) sort(studentai.begin(), studentai.end(), PagalVarda);
+        if(k==2) sort(studentai.begin(), studentai.end(), PagalPavarde);
+        if(k==3) sort(studentai.begin(), studentai.end(), PagalVidurki);
+        if(k==4) sort(studentai.begin(), studentai.end(), PagalMediana);
         NuskIsvedimas(studentai);
         break;
     case 5:
