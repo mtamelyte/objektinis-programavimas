@@ -83,13 +83,18 @@ void Ivedimas(vector<Stud> &s, int &p)
     }
 }
 
-void Nuskaitymas(vector<Stud> & s)
+void Nuskaitymas(vector<Stud> & s, ifstream & fin)
 {
-    ifstream fin("kursiokai.txt");
     Stud laik;
-    int sk;
+    int sk, i=0;
+    string pirma;
     while (!fin.eof())
     {
+        if(i==0) 
+        {
+            getline(fin, pirma);
+            i++;
+        }
         fin >> ws;
         fin >> laik.var >> laik.pav;
         string pazymiai;
@@ -184,6 +189,27 @@ void NuskIsvedimas(vector<Stud> s)
     }
 }
 
+double Laikas(string failas)
+{
+    vector <Stud> laik;
+    int laiko_pradz=time(NULL);
+    ifstream fin(failas);
+    Nuskaitymas(laik, fin);
+    fin.close();
+    int laiko_pab=time(NULL);
+    return laiko_pab-laiko_pradz;
+}
+
+void Testas(string pav, int sk)
+{
+    double vid=0; 
+        for(int i=0; i<3; i++)
+        {
+            vid += Laikas(pav);
+        }
+        cout << "Vidutinis laikas su " << sk << " studentų: " << vid/3 << endl;
+}
+
 int main()
 {
     srand(time(NULL));
@@ -194,12 +220,16 @@ int main()
     cout << "2 - Sugeneruoti pažymius" << endl;
     cout << "3 - Sugeneruoti pažymius, vardus ir pavardes" << endl;
     cout << "4 - Nuskaityti duomenis iš failo" << endl;
-    cout << "5 - Baigti darbą" << endl;
+    cout << "5 - Testuoti kodą" << endl;
+    cout << "6 - Baigti darbą" << endl;
     cin >> p;
     switch (p)
     {
     case 4:
-        Nuskaitymas(studentai);
+    {
+    ifstream fin("kursiokai.txt");
+    Nuskaitymas(studentai, fin);
+    fin.close();
         cout << "Kaip norėtum surūšiuoti rezultatus?" << endl;
         cout << "1 - pagal vardą" << endl;
         cout << "2 - pagal pavardę" << endl;
@@ -211,10 +241,20 @@ int main()
         if(k==3) sort(studentai.begin(), studentai.end(), PagalVidurki);
         if(k==4) sort(studentai.begin(), studentai.end(), PagalMediana);
         NuskIsvedimas(studentai);
+    }
         break;
     case 5:
+    {
+       // Testas("studentai10000.txt", 10000);
+        Testas("studentai100000.txt", 100000);
+      //  Testas("studentai1000000.txt", 1000000);
+    }
+    break;
+    case 6:
+    {
         return 0;
         break;
+    }
     default:
     {
         Ivedimas(studentai, p);
