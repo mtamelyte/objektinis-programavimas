@@ -104,6 +104,24 @@ double Mediana(vector<int> nd)
         return nd[floor(nd.size() / 2)];
 }
 
+void FailIsvedimas(vector<Stud> s)
+{
+    ofstream fout("rez.txt");
+    fout << setw(12) << left << "Vardas";
+    fout << setw(16) << "Pavardė";
+    fout << setw(20) << "Galutinis (Vid.)";
+    fout << setw(20) << "Galutinis (Med.)" << endl;
+    fout << "--------------------------------------------------------------" << endl;
+    for (Stud i : s)
+    {
+        fout << setw(12) << i.var;
+        fout << setw(16) << i.pav;
+        fout << setw(20) << fixed << setprecision(2) << (Vidurkis(i.nd) * 0.4) + (i.egz * 0.6);
+        fout << setw(20) << fixed << setprecision(2) << (Mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
+    }
+    fout.close();
+}
+
 void NuskBuferis(vector<Stud> &s, string read_vardas, double & t)
 {
     vector<string> laik;
@@ -137,7 +155,6 @@ void NuskBuferis(vector<Stud> &s, string read_vardas, double & t)
         else
         {
             is >> st.var >> st.pav;
-            cout << st.var << st.pav << endl;
             st.nd.clear();
             while (is >> sk)
             {
@@ -148,6 +165,7 @@ void NuskBuferis(vector<Stud> &s, string read_vardas, double & t)
             s.push_back(st);
         }
     }
+    FailIsvedimas(s);
     auto t2=std::chrono::high_resolution_clock::now();
     t = (t2-t1)/1.0s;
 }
@@ -218,25 +236,8 @@ void Testas(string pav, int sk)
         NuskBuferis(studentai, pav, t);
         vid += t;
     }
-    cout << "Vidutinis laikas su " << sk << " studentų: " << vid / 3 << " s." << endl;
-}
 
-void FailIsvedimas(vector<Stud> s)
-{
-    ofstream fout("rez.txt");
-    fout << setw(12) << left << "Vardas";
-    fout << setw(16) << "Pavardė";
-    fout << setw(20) << "Galutinis (Vid.)";
-    fout << setw(20) << "Galutinis (Med.)" << endl;
-    fout << "--------------------------------------------------------------" << endl;
-    for (Stud i : s)
-    {
-        fout << setw(12) << i.var;
-        fout << setw(16) << i.pav;
-        fout << setw(20) << fixed << setprecision(2) << (Vidurkis(i.nd) * 0.4) + (i.egz * 0.6);
-        fout << setw(20) << fixed << setprecision(2) << (Mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
-    }
-    fout.close();
+    cout << "Vidutinis laikas su " << sk << " studentų: " << vid / 3 << " s." << endl;
 }
 
 int main()
@@ -272,8 +273,13 @@ int main()
             sort(studentai.begin(), studentai.end(), PagalVidurki);
         if (k == 4)
             sort(studentai.begin(), studentai.end(), PagalMediana);
-        //NuskIsvedimas(studentai);
-        FailIsvedimas(studentai);
+        int isv;
+        cout << "Kaip norite išvesti duomenis?" << endl;
+        cout << "1 - į terminalą" << endl;
+        cout << "2 - į failą" << endl;
+        cin >> isv; 
+        if(isv==1) NuskIsvedimas(studentai);
+        else FailIsvedimas(studentai);
     }
     break;
     case 5:
