@@ -83,35 +83,6 @@ void Ivedimas(vector<Stud> &s, int &p)
     }
 }
 
-void Nuskaitymas(vector<Stud> & s, ifstream & fin)
-{
-    Stud laik;
-    int sk, i=0;
-    string pirma;
-    while (!fin.eof())
-    {
-        if(i==0) 
-        {
-            getline(fin, pirma);
-            i++;
-        }
-        fin >> ws;
-        fin >> laik.var >> laik.pav;
-        string pazymiai;
-        getline(fin, pazymiai);
-        istringstream is(pazymiai);
-        while (is >> sk)
-        {
-            {
-                laik.nd.push_back(sk);
-            }
-        }
-        laik.egz=laik.nd.back();
-        laik.nd.pop_back();
-        s.push_back(laik);
-    }
-}
-
 double Vidurkis(vector<int> nd)
 {
     double sum = 0;
@@ -131,6 +102,54 @@ double Mediana(vector<int> nd)
         return (nd[dydis / 2] + nd[(dydis / 2) - 1]) / 2;
     else
         return nd[floor(nd.size() / 2)];
+}
+
+void NuskBuferis(vector<Stud> &s, string read_vardas, double & t)
+{
+    vector<string> laik;
+    Stud st;
+    string eil;
+    stringstream buferis;
+
+    auto t1=std::chrono::high_resolution_clock::now();
+    ifstream fin(read_vardas);
+    buferis << fin.rdbuf();
+    fin.close();
+
+    while (buferis)
+    {
+        if (!buferis.eof())
+        {
+            getline(buferis, eil);
+            laik.push_back(eil);
+        }
+        else
+            break;
+    }
+    
+    int sk;
+    int i = 0;
+    for (string a : laik)
+    {
+        istringstream is(a);
+        if (i == 0)
+            i++;
+        else
+        {
+            is >> st.var >> st.pav;
+            cout << st.var << st.pav << endl;
+            st.nd.clear();
+            while (is >> sk)
+            {
+                st.nd.push_back(sk);
+            }
+            st.egz = st.nd.back();
+            st.nd.pop_back();
+            s.push_back(st);
+        }
+    }
+    auto t2=std::chrono::high_resolution_clock::now();
+    t = (t2-t1)/1.0s;
 }
 
 void Isvedimas(vector<Stud> s, int p, int k)
@@ -153,67 +172,78 @@ void Isvedimas(vector<Stud> s, int p, int k)
     }
 }
 
-bool PagalVarda(Stud & a, Stud & b)
+bool PagalVarda(Stud &a, Stud &b)
 {
-    return a.var<b.var;
+    return a.var < b.var;
 }
 
-bool PagalPavarde(Stud & a, Stud & b)
+bool PagalPavarde(Stud &a, Stud &b)
 {
-    return b.pav>a.pav;
+    return b.pav > a.pav;
 }
 
-bool PagalVidurki(Stud & a, Stud & b)
+bool PagalVidurki(Stud &a, Stud &b)
 {
-    return (Vidurkis(b.nd) * 0.4) + (b.egz * 0.6)>(Vidurkis(a.nd) * 0.4) + (a.egz * 0.6);
+    return (Vidurkis(b.nd) * 0.4) + (b.egz * 0.6) > (Vidurkis(a.nd) * 0.4) + (a.egz * 0.6);
 }
 
-bool PagalMediana(Stud & a, Stud & b)
+bool PagalMediana(Stud &a, Stud &b)
 {
-    return (Mediana(b.nd) * 0.4) + (b.egz * 0.6)>(Mediana(a.nd) * 0.4) + (a.egz * 0.6);
+    return (Mediana(b.nd) * 0.4) + (b.egz * 0.6) > (Mediana(a.nd) * 0.4) + (a.egz * 0.6);
 }
 
 void NuskIsvedimas(vector<Stud> s)
 {
     cout << setw(12) << left << "Vardas";
     cout << setw(16) << "Pavardė";
-        cout << setw(20) << "Galutinis (Vid.)";
-        cout << setw(20) << "Galutinis (Med.)" << endl;
+    cout << setw(20) << "Galutinis (Vid.)";
+    cout << setw(20) << "Galutinis (Med.)" << endl;
     cout << "--------------------------------------------------------------" << endl;
     for (Stud i : s)
     {
         cout << setw(12) << i.var;
         cout << setw(16) << i.pav;
-            cout << setw(20) << fixed << setprecision(2) << (Vidurkis(i.nd) * 0.4) + (i.egz * 0.6);
-            cout << setw(20) << fixed << setprecision(2) << (Mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
+        cout << setw(20) << fixed << setprecision(2) << (Vidurkis(i.nd) * 0.4) + (i.egz * 0.6);
+        cout << setw(20) << fixed << setprecision(2) << (Mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
     }
-}
-
-double Laikas(string failas)
-{
-    vector <Stud> laik;
-    int laiko_pradz=time(NULL);
-    ifstream fin(failas);
-    Nuskaitymas(laik, fin);
-    fin.close();
-    int laiko_pab=time(NULL);
-    return laiko_pab-laiko_pradz;
 }
 
 void Testas(string pav, int sk)
 {
-    double vid=0; 
-        for(int i=0; i<3; i++)
-        {
-            vid += Laikas(pav);
-        }
-        cout << "Vidutinis laikas su " << sk << " studentų: " << vid/3 << endl;
+    vector<Stud> studentai;
+    double vid;
+    for (int i = 0; i < 3; i++)
+    {
+        double t;
+        NuskBuferis(studentai, pav, t);
+        vid += t;
+    }
+    cout << "Vidutinis laikas su " << sk << " studentų: " << vid / 3 << " s." << endl;
+}
+
+void FailIsvedimas(vector<Stud> s)
+{
+    ofstream fout("rez.txt");
+    fout << setw(12) << left << "Vardas";
+    fout << setw(16) << "Pavardė";
+    fout << setw(20) << "Galutinis (Vid.)";
+    fout << setw(20) << "Galutinis (Med.)" << endl;
+    fout << "--------------------------------------------------------------" << endl;
+    for (Stud i : s)
+    {
+        fout << setw(12) << i.var;
+        fout << setw(16) << i.pav;
+        fout << setw(20) << fixed << setprecision(2) << (Vidurkis(i.nd) * 0.4) + (i.egz * 0.6);
+        fout << setw(20) << fixed << setprecision(2) << (Mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
+    }
+    fout.close();
 }
 
 int main()
 {
     srand(time(NULL));
     int k, p;
+    double t;
     vector<Stud> studentai;
     cout << "Ką norėtum daryti?" << endl;
     cout << "1 - Suvesti duomenis ranka" << endl;
@@ -227,27 +257,30 @@ int main()
     {
     case 4:
     {
-    ifstream fin("kursiokai.txt");
-    Nuskaitymas(studentai, fin);
-    fin.close();
+        NuskBuferis(studentai, "kursiokai.txt", t);
         cout << "Kaip norėtum surūšiuoti rezultatus?" << endl;
         cout << "1 - pagal vardą" << endl;
         cout << "2 - pagal pavardę" << endl;
         cout << "3 - pagal vidurkį" << endl;
         cout << "4 - pagal medianą" << endl;
         cin >> k;
-        if(k==1) sort(studentai.begin(), studentai.end(), PagalVarda);
-        if(k==2) sort(studentai.begin(), studentai.end(), PagalPavarde);
-        if(k==3) sort(studentai.begin(), studentai.end(), PagalVidurki);
-        if(k==4) sort(studentai.begin(), studentai.end(), PagalMediana);
-        NuskIsvedimas(studentai);
+        if (k == 1)
+            sort(studentai.begin(), studentai.end(), PagalVarda);
+        if (k == 2)
+            sort(studentai.begin(), studentai.end(), PagalPavarde);
+        if (k == 3)
+            sort(studentai.begin(), studentai.end(), PagalVidurki);
+        if (k == 4)
+            sort(studentai.begin(), studentai.end(), PagalMediana);
+        //NuskIsvedimas(studentai);
+        FailIsvedimas(studentai);
     }
-        break;
+    break;
     case 5:
     {
-       // Testas("studentai10000.txt", 10000);
+        Testas("studentai10000.txt", 10000);
         Testas("studentai100000.txt", 100000);
-      //  Testas("studentai1000000.txt", 1000000);
+        Testas("studentai1000000.txt", 1000000);
     }
     break;
     case 6:
