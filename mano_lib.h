@@ -18,6 +18,7 @@ using std::vector;
 using std::ws;
 using namespace std::literals::chrono_literals;
 using std::ofstream;
+using std::ostringstream;
 
 struct Stud
 {

@@ -106,19 +106,19 @@ double Mediana(vector<int> nd)
 
 void FailIsvedimas(vector<Stud> s)
 {
-    ofstream fout("rez.txt");
-    fout << setw(12) << left << "Vardas";
-    fout << setw(16) << "Pavardė";
-    fout << setw(20) << "Galutinis (Vid.)";
-    fout << setw(20) << "Galutinis (Med.)" << endl;
-    fout << "--------------------------------------------------------------" << endl;
+    ostringstream buferis;
+    buferis << setw(12) << left << "Vardas" << setw(16) << "Pavardė" << setw(20) << "Galutinis (Vid.)" << setw(20) << "Galutinis (Med.)" << endl;
+    buferis << "--------------------------------------------------------------" << endl;
     for (Stud i : s)
     {
-        fout << setw(12) << i.var;
-        fout << setw(16) << i.pav;
-        fout << setw(20) << fixed << setprecision(2) << (Vidurkis(i.nd) * 0.4) + (i.egz * 0.6);
-        fout << setw(20) << fixed << setprecision(2) << (Mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
+        buferis << setw(12) << i.var;
+        buferis << setw(16) << i.pav;
+        buferis << setw(20) << fixed << setprecision(2) << (Vidurkis(i.nd) * 0.4) + (i.egz * 0.6);
+        buferis << setw(20) << fixed << setprecision(2) << (Mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
     }
+    
+    ofstream fout("rez.txt");
+    fout << buferis.str();
     fout.close();
 }
 
@@ -145,6 +145,7 @@ void NuskBuferis(vector<Stud> &s, string read_vardas, double & t)
             break;
     }
     
+    s.clear();
     int sk;
     int i = 0;
     for (string a : laik)
@@ -258,7 +259,10 @@ int main()
     {
     case 4:
     {
-        NuskBuferis(studentai, "kursiokai.txt", t);
+        string pav;
+        cout << "Įvesk failo, kurį nori nuskaityti, pavadinimą:" << endl;
+        cin >> pav;
+        NuskBuferis(studentai, pav, t);
         cout << "Kaip norėtum surūšiuoti rezultatus?" << endl;
         cout << "1 - pagal vardą" << endl;
         cout << "2 - pagal pavardę" << endl;
