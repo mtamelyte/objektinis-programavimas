@@ -1,52 +1,52 @@
 #include "mano_lib.h"
 
-void VardoIvedimas(Stud &laik)
+void vardoIvedimas(Stud &laik)
 {
     cout << "Įveskite studento vardą: ";
-    cin >> laik.var;
+    cin >> laik.vardas;
     cout << "Įveskite studento pavardę: ";
-    cin >> laik.pav;
+    cin >> laik.pavarde;
 }
 
-void PazymiuIvedimas(Stud &laik)
+void pazymiuIvedimas(Stud &laik)
 {
-    bool npaz = true;
-    int paz, pas;
+    bool naujasPazymys = true;
+    int pazymys, pasirinkimas;
     cout << "Įveskite studento egzamino rezultatą: ";
     cin >> laik.egz;
-    while (npaz)
+    while (naujasPazymys)
     {
         cout << "Įveskite studento namų darbų pažymį: ";
-        cin >> paz;
-        laik.nd.push_back(paz);
+        cin >> pazymys;
+        laik.nd.push_back(pazymys);
         cout << "Ar norite įvesti dar vieną pažymį?" << endl;
         cout << "1 - taip" << endl;
         cout << "2 - ne" << endl;
-        cin >> pas;
-        if (pas == 2)
-            npaz = false;
+        cin >> pasirinkimas;
+        if (pasirinkimas == 2)
+            naujasPazymys = false;
     }
 }
 
-void VardoGeneravimas(Stud &laik)
+void vardoGeneravimas(Stud &laik)
 {
-    string m_vardas[] = {"Monika", "Auguste", "Astrida", "Nika", "Liveta", "Juste", "Beatrice", "Egle", "Emile", "Vanesa", "Anastasija", "Gabija", "Migle", "Neda", "Teja", "Vasare"};
-    string m_pav[] = {"Tamelyte", "Tumaite", "Jablonskyte", "Bukolovaite", "Ruskute", "Vaitkeviciute", "Rokaite", "Gurklyte", "Kesaite", "Balsyte", "Fedorenko", "Kameneckaite", "Cincikaite", "Davidaviciute", "Tupinyte", "Milkovaite"};
-    string v_vardas[] = {"Adomas", "Andrius", "Arnas", "Benediktas", "Dominykas", "Emilis", "Gabrielius", "Gustavas", "Ignas", "Julius", "Justas", "Karolis", "Kristijonas", "Kristupas", "Marijus", "Martynas"};
-    string v_pav[] = {"Lukosevicius", "Rakauskas", "Matuolis", "Juozapavicius", "Pronskus", "Slabada", "Rutkauskas", "Marcinkevicius", "Volodko", "Truksinas", "Andrulevicius", "Narbutis", "Pocius", "Arifovas", "Kuprys", "Simanavicius"};
+    string motVardas[] = {"Monika", "Auguste", "Astrida", "Nika", "Liveta", "Juste", "Beatrice", "Egle", "Emile", "Vanesa", "Anastasija", "Gabija", "Migle", "Neda", "Teja", "Vasare"};
+    string motPavarde[] = {"Tamelyte", "Tumaite", "Jablonskyte", "Bukolovaite", "Ruskute", "Vaitkeviciute", "Rokaite", "Gurklyte", "Kesaite", "Balsyte", "Fedorenko", "Kameneckaite", "Cincikaite", "Davidaviciute", "Tupinyte", "Milkovaite"};
+    string vyrVardas[] = {"Adomas", "Andrius", "Arnas", "Benediktas", "Dominykas", "Emilis", "Gabrielius", "Gustavas", "Ignas", "Julius", "Justas", "Karolis", "Kristijonas", "Kristupas", "Marijus", "Martynas"};
+    string vyrPavarde[] = {"Lukosevicius", "Rakauskas", "Matuolis", "Juozapavicius", "Pronskus", "Slabada", "Rutkauskas", "Marcinkevicius", "Volodko", "Truksinas", "Andrulevicius", "Narbutis", "Pocius", "Arifovas", "Kuprys", "Simanavicius"};
     if (rand() % 2 != 0)
     {
-        laik.var = v_vardas[rand() % 16];
-        laik.pav = v_pav[rand() % 16];
+        laik.vardas = vyrVardas[rand() % 16];
+        laik.pavarde = vyrPavarde[rand() % 16];
     }
     else
     {
-        laik.var = m_vardas[rand() % 16];
-        laik.pav = m_pav[rand() % 16];
+        laik.vardas = motVardas[rand() % 16];
+        laik.pavarde = motPavarde[rand() % 16];
     }
 }
 
-void PazGeneravimas(Stud &laik)
+void pazymiuGeneravimas(Stud &laik)
 {
     laik.egz = (rand() % 10) + 1;
     for (int i = 0; i < rand() + 1; i++)
@@ -55,45 +55,45 @@ void PazGeneravimas(Stud &laik)
     }
 }
 
-void Ivedimas(vector<Stud> &s, int &p)
+void ivedimas(vector<Stud> &studentai, int &meniuPasirinkimas)
 {
-    bool nstud = true;
-    int pas;
-    while (nstud)
+    bool naujasStudentas = true;
+    int pasirinkimas;
+    while (naujasStudentas)
     {
         Stud laik;
-        if (p == 1 || p == 2)
-            VardoIvedimas(laik);
-        if (p == 1)
-            PazymiuIvedimas(laik);
-        else if (p == 2)
-            PazGeneravimas(laik);
-        else if (p == 3)
+        if (meniuPasirinkimas == 1 || meniuPasirinkimas == 2)
+            vardoIvedimas(laik);
+        if (meniuPasirinkimas == 1)
+            pazymiuIvedimas(laik);
+        else if (meniuPasirinkimas == 2)
+            pazymiuGeneravimas(laik);
+        else if (meniuPasirinkimas == 3)
         {
-            VardoGeneravimas(laik);
-            PazGeneravimas(laik);
+            vardoGeneravimas(laik);
+            pazymiuGeneravimas(laik);
         }
-        s.push_back(laik);
+        studentai.push_back(laik);
         cout << "Ar norite įvesti dar vieną studentą?" << endl;
         cout << "1 - taip" << endl;
         cout << "2 - ne" << endl;
-        cin >> pas;
-        if (pas == 2)
-            nstud = false;
+        cin >> pasirinkimas;
+        if (pasirinkimas == 2)
+            naujasStudentas = false;
     }
 }
 
-double Vidurkis(vector<int> nd)
+double vidurkis(vector<int> nd)
 {
-    double sum = 0;
+    double suma = 0;
     for (int i : nd)
     {
-        sum += i;
+        suma += i;
     }
-    return sum / nd.size();
+    return suma / nd.size();
 }
 
-double Mediana(vector<int> nd)
+double mediana(vector<int> nd)
 {
     int dydis;
     sort(nd.begin(), nd.end());
@@ -104,33 +104,32 @@ double Mediana(vector<int> nd)
         return nd[floor(nd.size() / 2)];
 }
 
-void FailIsvedimas(vector<Stud> s)
+void isvedimasIFaila(vector<Stud> studentai)
 {
-    ostringstream buferis;
+    stringstream buferis;
     buferis << setw(12) << left << "Vardas" << setw(16) << "Pavardė" << setw(20) << "Galutinis (Vid.)" << setw(20) << "Galutinis (Med.)" << endl;
     buferis << "--------------------------------------------------------------" << endl;
-    for (Stud i : s)
+    for (Stud i : studentai)
     {
-        buferis << setw(12) << i.var;
-        buferis << setw(16) << i.pav;
-        buferis << setw(20) << fixed << setprecision(2) << (Vidurkis(i.nd) * 0.4) + (i.egz * 0.6);
-        buferis << setw(20) << fixed << setprecision(2) << (Mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
+        buferis << setw(12) << i.vardas;
+        buferis << setw(16) << i.pavarde;
+        buferis << setw(20) << fixed << setprecision(2) << (vidurkis(i.nd) * 0.4) + (i.egz * 0.6);
+        buferis << setw(20) << fixed << setprecision(2) << (mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
     }
-    
+
     ofstream fout("rez.txt");
-    fout << buferis.str();
+    fout << buferis.rdbuf();
     fout.close();
 }
 
-void NuskBuferis(vector<Stud> &s, string read_vardas, double & t)
+void nuskaitymasSuBuferiu(vector<Stud> &studentai, string failoPavadinimas)
 {
     vector<string> laik;
-    Stud st;
-    string eil;
+    Stud studentas;
+    string eilute;
     stringstream buferis;
 
-    auto t1=std::chrono::high_resolution_clock::now();
-    ifstream fin(read_vardas);
+    ifstream fin(failoPavadinimas);
     buferis << fin.rdbuf();
     fin.close();
 
@@ -138,114 +137,124 @@ void NuskBuferis(vector<Stud> &s, string read_vardas, double & t)
     {
         if (!buferis.eof())
         {
-            getline(buferis, eil);
-            laik.push_back(eil);
+            getline(buferis, eilute);
+            laik.push_back(eilute);
         }
         else
             break;
     }
-    
-    s.clear();
-    int sk;
-    int i = 0;
+
+    studentai.clear();
+    int skaicius;
+    bool pirmaEilute = true;
     for (string a : laik)
     {
         istringstream is(a);
-        if (i == 0)
-            i++;
+        if (pirmaEilute == true)
+            pirmaEilute = false;
         else
         {
-            is >> st.var >> st.pav;
-            st.nd.clear();
-            while (is >> sk)
+            is >> studentas.vardas >> studentas.pavarde;
+            studentas.nd.clear();
+            while (is >> skaicius)
             {
-                st.nd.push_back(sk);
+                studentas.nd.push_back(skaicius);
             }
-            st.egz = st.nd.back();
-            st.nd.pop_back();
-            s.push_back(st);
+            studentas.egz = studentas.nd.back();
+            studentas.nd.pop_back();
+            studentai.push_back(studentas);
         }
     }
-    FailIsvedimas(s);
-    auto t2=std::chrono::high_resolution_clock::now();
-    t = (t2-t1)/1.0s;
 }
 
-void Isvedimas(vector<Stud> s, int p, int k)
-{
-    cout << setw(12) << left << "Pavardė";
-    cout << setw(16) << "Vardas";
-    if (k == 1)
-        cout << setw(16) << "Galutinis (Vid.)" << endl;
-    else if (k == 2)
-        cout << setw(16) << "Galutinis (Med.)" << endl;
-    cout << "----------------------------------------" << endl;
-    for (Stud i : s)
-    {
-        cout << setw(15) << i.pav;
-        cout << setw(12) << i.var;
-        if (k == 1)
-            cout << setw(16) << fixed << setprecision(2) << (Vidurkis(i.nd) * 0.4) + (i.egz * 0.6) << endl;
-        else if (k == 2)
-            cout << setw(16) << fixed << setprecision(2) << (Mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
-    }
-}
-
-bool PagalVarda(Stud &a, Stud &b)
-{
-    return a.var < b.var;
-}
-
-bool PagalPavarde(Stud &a, Stud &b)
-{
-    return b.pav > a.pav;
-}
-
-bool PagalVidurki(Stud &a, Stud &b)
-{
-    return (Vidurkis(b.nd) * 0.4) + (b.egz * 0.6) > (Vidurkis(a.nd) * 0.4) + (a.egz * 0.6);
-}
-
-bool PagalMediana(Stud &a, Stud &b)
-{
-    return (Mediana(b.nd) * 0.4) + (b.egz * 0.6) > (Mediana(a.nd) * 0.4) + (a.egz * 0.6);
-}
-
-void NuskIsvedimas(vector<Stud> s)
+void isvedimas(vector<Stud> studentai, int galutinioBaloPasirinkimas)
 {
     cout << setw(12) << left << "Vardas";
-    cout << setw(16) << "Pavardė";
-    cout << setw(20) << "Galutinis (Vid.)";
-    cout << setw(20) << "Galutinis (Med.)" << endl;
-    cout << "--------------------------------------------------------------" << endl;
-    for (Stud i : s)
+    cout << setw(15) << "Pavardė";
+    if (galutinioBaloPasirinkimas == 1)
+        cout << setw(20) << "Galutinis (Vid.)" << endl;
+    else if (galutinioBaloPasirinkimas == 2)
+        cout << setw(20) << "Galutinis (Med.)" << endl;
+    else
     {
-        cout << setw(12) << i.var;
-        cout << setw(16) << i.pav;
-        cout << setw(20) << fixed << setprecision(2) << (Vidurkis(i.nd) * 0.4) + (i.egz * 0.6);
-        cout << setw(20) << fixed << setprecision(2) << (Mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
+        cout << setw(20) << "Galutinis (Vid.)";
+        cout << setw(20) << "Galutinis (Med.)" << endl;
+    }
+    cout << "----------------------------------------" << endl;
+    for (Stud i : studentai)
+    {
+        cout << setw(12) << i.vardas;
+        cout << setw(15) << i.pavarde;
+        if (galutinioBaloPasirinkimas == 1)
+            cout << setw(20) << fixed << setprecision(2) << (vidurkis(i.nd) * 0.4) + (i.egz * 0.6) << endl;
+        else if (galutinioBaloPasirinkimas == 2)
+            cout << setw(20) << fixed << setprecision(2) << (mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
+        else
+        {
+            cout << setw(20) << fixed << setprecision(2) << (vidurkis(i.nd) * 0.4) + (i.egz * 0.6);
+            cout << setw(20) << fixed << setprecision(2) << (mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
+        }
     }
 }
 
-void Testas(string pav, int sk)
+bool pagalVarda(Stud &a, Stud &b)
+{
+    return a.vardas < b.vardas;
+}
+
+bool pagalPavarde(Stud &a, Stud &b)
+{
+    return b.pavarde > a.pavarde;
+}
+
+bool pagalVidurki(Stud &a, Stud &b)
+{
+    return (vidurkis(b.nd) * 0.4) + (b.egz * 0.6) > (vidurkis(a.nd) * 0.4) + (a.egz * 0.6);
+}
+
+bool pagalMediana(Stud &a, Stud &b)
+{
+    return (mediana(b.nd) * 0.4) + (b.egz * 0.6) > (mediana(a.nd) * 0.4) + (a.egz * 0.6);
+}
+
+void testas(string failoPavadinimas)
 {
     vector<Stud> studentai;
-    double vid;
+    double vidurkis;
     for (int i = 0; i < 3; i++)
     {
-        double t;
-        NuskBuferis(studentai, pav, t);
-        vid += t;
+        auto t1 = std::chrono::high_resolution_clock::now();
+        nuskaitymasSuBuferiu(studentai, failoPavadinimas);
+        isvedimasIFaila(studentai);
+        auto t2 = std::chrono::high_resolution_clock::now();
+        vidurkis += ((t2 - t1) / 1.0s);
     }
+    cout << "Vidutinis laikas: " << vidurkis / 3 << " s." << endl;
+}
 
-    cout << "Vidutinis laikas su " << sk << " studentų: " << vid / 3 << " s." << endl;
+void rusiavimas(vector<Stud> &studentai)
+{
+    int pasirinkimas;
+    cout << "Kaip norėtum surūšiuoti rezultatus?" << endl;
+    cout << "1 - pagal vardą" << endl;
+    cout << "2 - pagal pavardę" << endl;
+    cout << "3 - pagal vidurkį" << endl;
+    cout << "4 - pagal medianą" << endl;
+    cin >> pasirinkimas;
+    if (pasirinkimas == 1)
+        sort(studentai.begin(), studentai.end(), pagalVarda);
+    if (pasirinkimas == 2)
+        sort(studentai.begin(), studentai.end(), pagalPavarde);
+    if (pasirinkimas == 3)
+        sort(studentai.begin(), studentai.end(), pagalVidurki);
+    if (pasirinkimas == 4)
+        sort(studentai.begin(), studentai.end(), pagalMediana);
 }
 
 int main()
 {
     srand(time(NULL));
-    int k, p;
-    double t;
+    int galutinioBaloPasirinkimas = 0, meniuPasirinkimas;
     vector<Stud> studentai;
     cout << "Ką norėtum daryti?" << endl;
     cout << "1 - Suvesti duomenis ranka" << endl;
@@ -254,43 +263,47 @@ int main()
     cout << "4 - Nuskaityti duomenis iš failo" << endl;
     cout << "5 - Testuoti kodą" << endl;
     cout << "6 - Baigti darbą" << endl;
-    cin >> p;
-    switch (p)
+    cin >> meniuPasirinkimas;
+    switch (meniuPasirinkimas)
     {
     case 4:
     {
-        string pav;
+        string failoPavadinimas;
         cout << "Įvesk failo, kurį nori nuskaityti, pavadinimą:" << endl;
-        cin >> pav;
-        NuskBuferis(studentai, pav, t);
-        cout << "Kaip norėtum surūšiuoti rezultatus?" << endl;
-        cout << "1 - pagal vardą" << endl;
-        cout << "2 - pagal pavardę" << endl;
-        cout << "3 - pagal vidurkį" << endl;
-        cout << "4 - pagal medianą" << endl;
-        cin >> k;
-        if (k == 1)
-            sort(studentai.begin(), studentai.end(), PagalVarda);
-        if (k == 2)
-            sort(studentai.begin(), studentai.end(), PagalPavarde);
-        if (k == 3)
-            sort(studentai.begin(), studentai.end(), PagalVidurki);
-        if (k == 4)
-            sort(studentai.begin(), studentai.end(), PagalMediana);
-        int isv;
+        cin >> failoPavadinimas;
+        nuskaitymasSuBuferiu(studentai, failoPavadinimas);
+        rusiavimas(studentai);
+        int isvedimoPasirinkimas;
         cout << "Kaip norite išvesti duomenis?" << endl;
         cout << "1 - į terminalą" << endl;
         cout << "2 - į failą" << endl;
-        cin >> isv; 
-        if(isv==1) NuskIsvedimas(studentai);
-        else FailIsvedimas(studentai);
+        cin >> isvedimoPasirinkimas;
+        if (isvedimoPasirinkimas == 1)
+            isvedimas(studentai, isvedimoPasirinkimas);
+        else
+            isvedimasIFaila(studentai);
     }
     break;
     case 5:
     {
-        Testas("studentai10000.txt", 10000);
-        Testas("studentai100000.txt", 100000);
-        Testas("studentai1000000.txt", 1000000);
+        cout << "Su kuriuo failu norėtumėte testuoti kodą?" << endl;
+        cout << "1 - su studentai10000.txt" << endl;
+        cout << "2 - su studentai100000.txt" << endl;
+        cout << "3 - su studentai1000000.txt" << endl;
+        int failoPasirinkimas;
+        cin >> failoPasirinkimas;
+        switch (failoPasirinkimas)
+        {
+        case 1:
+            testas("studentai10000.txt");
+            break;
+        case 2:
+            testas("studentai100000.txt");
+            break;
+        case 3:
+            testas("studentai1000000.txt");
+            break;
+        }
     }
     break;
     case 6:
@@ -300,12 +313,13 @@ int main()
     }
     default:
     {
-        Ivedimas(studentai, p);
+        ivedimas(studentai, meniuPasirinkimas);
         cout << "Galutinio balo skaičiavimui norėtum naudoti: " << endl;
         cout << "1 - vidurkį" << endl;
         cout << "2 - medianą" << endl;
-        cin >> k;
-        Isvedimas(studentai, p, k);
+        cin >> galutinioBaloPasirinkimas;
+        rusiavimas(studentai);
+        isvedimas(studentai, galutinioBaloPasirinkimas);
     }
     break;
     }

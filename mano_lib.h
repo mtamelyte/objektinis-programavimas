@@ -22,7 +22,7 @@ using std::ostringstream;
 
 struct Stud
 {
-    string var, pav;
+    string vardas, pavarde;
     vector<int> nd;
     int egz;
 };
