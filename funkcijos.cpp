@@ -1,4 +1,5 @@
 #include "mano_lib.h"
+#include "antrastes.h"
 
 void vardoIvedimas(Stud &laik)
 {
@@ -167,32 +168,32 @@ void nuskaitymasSuBuferiu(vector<Stud> &studentai, string failoPavadinimas)
     }
 }
 
-void isvedimas(vector<Stud> studentai, int galutinioBaloPasirinkimas)
+void isvedimas(vector<Stud> studentai, int galutinioBaloPasirinkimas, ostream & isvedimoBudas)
 {
-    cout << setw(12) << left << "Vardas";
-    cout << setw(15) << "Pavardė";
+    isvedimoBudas << setw(12) << left << "Vardas";
+    isvedimoBudas << setw(15) << "Pavardė";
     if (galutinioBaloPasirinkimas == 1)
-        cout << setw(20) << "Galutinis (Vid.)" << endl;
+        isvedimoBudas << setw(20) << "Galutinis (Vid.)" << endl;
     else if (galutinioBaloPasirinkimas == 2)
-        cout << setw(20) << "Galutinis (Med.)" << endl;
+        isvedimoBudas << setw(20) << "Galutinis (Med.)" << endl;
     else
     {
-        cout << setw(20) << "Galutinis (Vid.)";
-        cout << setw(20) << "Galutinis (Med.)" << endl;
+        isvedimoBudas << setw(20) << "Galutinis (Vid.)";
+        isvedimoBudas << setw(20) << "Galutinis (Med.)" << endl;
     }
-    cout << "----------------------------------------" << endl;
+    isvedimoBudas << "----------------------------------------" << endl;
     for (Stud i : studentai)
     {
-        cout << setw(12) << i.vardas;
-        cout << setw(15) << i.pavarde;
+        isvedimoBudas << setw(12) << i.vardas;
+        isvedimoBudas << setw(15) << i.pavarde;
         if (galutinioBaloPasirinkimas == 1)
-            cout << setw(20) << fixed << setprecision(2) << (vidurkis(i.nd) * 0.4) + (i.egz * 0.6) << endl;
+            isvedimoBudas << setw(20) << fixed << setprecision(2) << (vidurkis(i.nd) * 0.4) + (i.egz * 0.6) << endl;
         else if (galutinioBaloPasirinkimas == 2)
-            cout << setw(20) << fixed << setprecision(2) << (mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
+            isvedimoBudas << setw(20) << fixed << setprecision(2) << (mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
         else
         {
-            cout << setw(20) << fixed << setprecision(2) << (vidurkis(i.nd) * 0.4) + (i.egz * 0.6);
-            cout << setw(20) << fixed << setprecision(2) << (mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
+            isvedimoBudas << setw(20) << fixed << setprecision(2) << (vidurkis(i.nd) * 0.4) + (i.egz * 0.6);
+            isvedimoBudas << setw(20) << fixed << setprecision(2) << (mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
         }
     }
 }
@@ -234,24 +235,45 @@ void testas(string failoPavadinimas)
 
 void rusiavimas(vector<Stud> &studentai)
 {
-    int pasirinkimas;
-    cout << "Kaip norėtum surūšiuoti rezultatus?" << endl;
-    cout << "1 - pagal vardą" << endl;
-    cout << "2 - pagal pavardę" << endl;
-    cout << "3 - pagal vidurkį" << endl;
-    cout << "4 - pagal medianą" << endl;
-    cin >> pasirinkimas;
-    if (pasirinkimas == 1)
+    int rusiavimoPasirinkimas;
+    while (true)
+    {
+        try
+        {
+            cout << "Kaip norėtum surūšiuoti rezultatus?" << endl;
+            cout << "1 - pagal vardą" << endl;
+            cout << "2 - pagal pavardę" << endl;
+            cout << "3 - pagal vidurkį" << endl;
+            cout << "4 - pagal medianą" << endl;
+            cin >> rusiavimoPasirinkimas;
+            if (cin.fail())
+            {
+                cin.clear();
+                cin.ignore();
+                throw runtime_error("Įvedėte ne skaičių!");
+            }
+            else if (rusiavimoPasirinkimas < 1 || rusiavimoPasirinkimas > 4)
+                throw runtime_error("Įvedėte netinkamą skaičių!");
+            else
+                break;
+        }
+        catch (runtime_error &e)
+        {
+            cout << e.what() << endl;
+            continue;
+        }
+    }
+    if (rusiavimoPasirinkimas == 1)
         sort(studentai.begin(), studentai.end(), pagalVarda);
-    if (pasirinkimas == 2)
+    if (rusiavimoPasirinkimas == 2)
         sort(studentai.begin(), studentai.end(), pagalPavarde);
-    if (pasirinkimas == 3)
+    if (rusiavimoPasirinkimas == 3)
         sort(studentai.begin(), studentai.end(), pagalVidurki);
-    if (pasirinkimas == 4)
+    if (rusiavimoPasirinkimas == 4)
         sort(studentai.begin(), studentai.end(), pagalMediana);
 }
 
-string failoPasirinkimas()
+string failoPasirinkimas(string klausimas)
 {
     system("dir /b *.txt > temp.txt");
     ifstream fin("temp.txt");
@@ -273,11 +295,31 @@ string failoPasirinkimas()
     }
     fin.close();
     system("del temp.txt");
-    cout << "Su kuriuo failu norėtumėte testuoti kodą?" << endl;
+    cout << klausimas << endl;
     for (int i = 1; i < failuPavadinimai.size(); i++)
     {
         cout << i << " - " << failuPavadinimai[i - 1] << endl;
     }
+    while(true)
+    {
+        try{
     cin >> failoNumeris;
+    if (cin.fail())
+            {
+                cin.clear();
+                cin.ignore();
+                throw runtime_error("Įvedėte ne skaičių!");
+            }
+            else if (failoNumeris < 1 || failoNumeris > failuPavadinimai.size())
+                throw runtime_error("Įvedėte netinkamą skaičių!");
+            else
+                break;
+        }
+        catch (runtime_error &e)
+        {
+            cout << e.what() << endl;
+            continue;
+        }
+    }
     return failuPavadinimai[failoNumeris - 1];
 }

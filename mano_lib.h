@@ -20,6 +20,7 @@ using namespace std::literals::chrono_literals;
 using std::ofstream;
 using std::ostringstream;
 using std::runtime_error;
+using std::ostream;
 
 struct Stud
 {

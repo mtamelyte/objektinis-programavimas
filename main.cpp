@@ -25,7 +25,7 @@ int main()
                 cin.ignore();
                 throw runtime_error("Įvedėte ne skaičių!");
             }
-            else if (meniuPasirinkimas < 0 || meniuPasirinkimas > 6)
+            else if (meniuPasirinkimas < 1 || meniuPasirinkimas > 6)
                 throw runtime_error("Įvedėte netinkamą skaičių!");
             else
                 break;
@@ -41,7 +41,7 @@ int main()
     case 4:
     {
         int isvedimoPasirinkimas;
-        nuskaitymasSuBuferiu(studentai, failoPasirinkimas());
+        nuskaitymasSuBuferiu(studentai, failoPasirinkimas("Iš kurio failo norėtumėte nuskaityti duomenis?"));
         rusiavimas(studentai);
         while (true)
         {
@@ -57,7 +57,7 @@ int main()
                     cin.ignore();
                     throw runtime_error("Įvedėte ne skaičių!");
                 }
-                else if (isvedimoPasirinkimas < 0 || isvedimoPasirinkimas > 2)
+                else if (isvedimoPasirinkimas < 1 || isvedimoPasirinkimas > 2)
                     throw runtime_error("Įvedėte netinkamą skaičių!");
                 else
                     break;
@@ -68,15 +68,22 @@ int main()
                 continue;
             }
         }
+        cout << "Galutinio balo skaičiavimui norėtum naudoti: " << endl;
+        cout << "1 - vidurkį" << endl;
+        cout << "2 - medianą" << endl;
+        cin >> galutinioBaloPasirinkimas;
         if (isvedimoPasirinkimas == 1)
-            isvedimas(studentai, isvedimoPasirinkimas);
+            isvedimas(studentai, galutinioBaloPasirinkimas, cout);
         else
-            isvedimasIFaila(studentai);
+        {
+            ofstream fout("rez.txt");
+            isvedimas(studentai, galutinioBaloPasirinkimas, fout);
+        }
     }
     break;
     case 5:
     {
-        testas(failoPasirinkimas());
+        testas(failoPasirinkimas("Su kuriuo failu norėtumėte testuoti kodą?"));
     }
     break;
     case 6:
@@ -92,7 +99,7 @@ int main()
         cout << "2 - medianą" << endl;
         cin >> galutinioBaloPasirinkimas;
         rusiavimas(studentai);
-        isvedimas(studentai, galutinioBaloPasirinkimas);
+        isvedimas(studentai, galutinioBaloPasirinkimas, cout);
     }
     break;
     }
