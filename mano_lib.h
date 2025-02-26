@@ -19,6 +19,7 @@ using std::ws;
 using namespace std::literals::chrono_literals;
 using std::ofstream;
 using std::ostringstream;
+using std::runtime_error;
 
 struct Stud
 {
@@ -26,3 +27,20 @@ struct Stud
     vector<int> nd;
     int egz;
 };
+
+void vardoIvedimas(Stud &laik);
+void pazymiuIvedimas(Stud &laik);
+void vardoGeneravimas(Stud &laik);
+void pazymiuGeneravimas(Stud &laik);
+void ivedimas(vector<Stud> &studentai, int &meniuPasirinkimas);
+double vidurkis(vector<int> nd);
+double mediana(vector<int> nd);
+void isvedimasIFaila(vector<Stud> studentai);
+void nuskaitymasSuBuferiu(vector<Stud> &studentai, string failoPavadinimas);
+void isvedimas(vector<Stud> studentai, int galutinioBaloPasirinkimas);
+bool pagalVarda(Stud &a, Stud &b);
+bool pagalPavarde(Stud &a, Stud &b);
+bool pagalVidurki(Stud &a, Stud &b);
+bool pagalMediana(Stud &a, Stud &b);
+void testas(string failoPavadinimas);
+void rusiavimas(vector<Stud> &studentai);
