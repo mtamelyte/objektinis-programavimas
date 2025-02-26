@@ -287,9 +287,9 @@ int main()
     case 5:
     {
         cout << "Su kuriuo failu norėtumėte testuoti kodą?" << endl;
-        cout << "1 - su studentai10000.txt" << endl;
-        cout << "2 - su studentai100000.txt" << endl;
-        cout << "3 - su studentai1000000.txt" << endl;
+        cout << "1 - studentai10000.txt" << endl;
+        cout << "2 - studentai100000.txt" << endl;
+        cout << "3 - studentai1000000.txt" << endl;
         int failoPasirinkimas;
         cin >> failoPasirinkimas;
         switch (failoPasirinkimas)
