@@ -41,30 +41,28 @@ int main()
     case 4:
     {
         int isvedimoPasirinkimas;
-        string failoPavadinimas;
-        cout << "Įvesk failo, kurį nori nuskaityti, pavadinimą:" << endl;
-        cin >> failoPavadinimas;
-        nuskaitymasSuBuferiu(studentai, failoPavadinimas);
+        nuskaitymasSuBuferiu(studentai, failoPasirinkimas());
         rusiavimas(studentai);
-        while(true)
+        while (true)
         {
-            try{
-        cout << "Kaip norite išvesti duomenis?" << endl;
-        cout << "1 - į terminalą" << endl;
-        cout << "2 - į failą" << endl;
-        cin >> isvedimoPasirinkimas;
-        if (cin.fail())
+            try
             {
-                cin.clear();
-                cin.ignore();
-                throw runtime_error("Įvedėte ne skaičių!");
+                cout << "Kaip norite išvesti duomenis?" << endl;
+                cout << "1 - į terminalą" << endl;
+                cout << "2 - į failą" << endl;
+                cin >> isvedimoPasirinkimas;
+                if (cin.fail())
+                {
+                    cin.clear();
+                    cin.ignore();
+                    throw runtime_error("Įvedėte ne skaičių!");
+                }
+                else if (isvedimoPasirinkimas < 0 || isvedimoPasirinkimas > 2)
+                    throw runtime_error("Įvedėte netinkamą skaičių!");
+                else
+                    break;
             }
-            else if (isvedimoPasirinkimas < 0 || isvedimoPasirinkimas > 2)
-                throw runtime_error("Įvedėte netinkamą skaičių!");
-            else
-                break;
-            }
-            catch(runtime_error & e)
+            catch (runtime_error &e)
             {
                 cout << e.what() << endl;
                 continue;
@@ -78,24 +76,7 @@ int main()
     break;
     case 5:
     {
-        cout << "Su kuriuo failu norėtumėte testuoti kodą?" << endl;
-        cout << "1 - studentai10000.txt" << endl;
-        cout << "2 - studentai100000.txt" << endl;
-        cout << "3 - studentai1000000.txt" << endl;
-        int failoPasirinkimas;
-        cin >> failoPasirinkimas;
-        switch (failoPasirinkimas)
-        {
-        case 1:
-            testas("studentai10000.txt");
-            break;
-        case 2:
-            testas("studentai100000.txt");
-            break;
-        case 3:
-            testas("studentai1000000.txt");
-            break;
-        }
+        testas(failoPasirinkimas());
     }
     break;
     case 6:

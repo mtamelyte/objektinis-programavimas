@@ -250,3 +250,34 @@ void rusiavimas(vector<Stud> &studentai)
     if (pasirinkimas == 4)
         sort(studentai.begin(), studentai.end(), pagalMediana);
 }
+
+string failoPasirinkimas()
+{
+    system("dir /b *.txt > temp.txt");
+    ifstream fin("temp.txt");
+    vector<string> failuPavadinimai;
+    vector<string> nenorimiFailai = {"rez.txt", "temp.txt"};
+    string pavadinimas;
+    int failoNumeris;
+    while (!fin.eof())
+    {
+        bool nenorimasFailas = false;
+        getline(fin, pavadinimas);
+        for (int i = 0; i < nenorimiFailai.size(); i++)
+        {
+            if (pavadinimas == nenorimiFailai[i])
+                nenorimasFailas = true;
+        }
+        if (nenorimasFailas == false)
+            failuPavadinimai.push_back(pavadinimas);
+    }
+    fin.close();
+    system("del temp.txt");
+    cout << "Su kuriuo failu norėtumėte testuoti kodą?" << endl;
+    for (int i = 1; i < failuPavadinimai.size(); i++)
+    {
+        cout << i << " - " << failuPavadinimai[i - 1] << endl;
+    }
+    cin >> failoNumeris;
+    return failuPavadinimai[failoNumeris - 1];
+}
