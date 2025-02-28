@@ -19,7 +19,7 @@ void vardoIvedimas(Stud &laik)
             {
                 throw "Įvedėte netinkamą simbolį";
                 cin.clear();
-                cin.ignore();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             }
             else
                 break;
@@ -46,7 +46,7 @@ void vardoIvedimas(Stud &laik)
             {
                 throw "Įvedėte netinkamą simbolį";
                 cin.clear();
-                cin.ignore();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             }
             else
                 break;
@@ -72,7 +72,7 @@ void pazymiuIvedimas(Stud &laik)
             if (cin.fail())
             {
                 cin.clear();
-                cin.ignore();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 throw "Įvedėte ne skaičių!";
             }
             else if (laik.egz < 1 || laik.egz > 10)
@@ -97,7 +97,7 @@ void pazymiuIvedimas(Stud &laik)
                 if (cin.fail())
                 {
                     cin.clear();
-                    cin.ignore();
+                    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                     throw "Įvedėte ne skaičių!";
                 }
                 else if (pazymys < 1 || pazymys > 10)
@@ -123,7 +123,7 @@ void pazymiuIvedimas(Stud &laik)
                 if (cin.fail())
                 {
                     cin.clear();
-                    cin.ignore();
+                    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                     throw "Įvedėte ne skaičių!";
                 }
                 else if (pasirinkimas < 1 || pasirinkimas > 2)
@@ -199,7 +199,7 @@ void ivedimas(vector<Stud> &studentai, int &meniuPasirinkimas)
                 if (cin.fail())
                 {
                     cin.clear();
-                    cin.ignore();
+                    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                     throw "Įvedėte ne skaičių!";
                 }
                 else if (pasirinkimas < 1 || pasirinkimas > 2)
@@ -245,8 +245,27 @@ void nuskaitymasSuBuferiu(vector<Stud> &studentai, string failoPavadinimas)
     Stud studentas;
     string eilute;
     stringstream buferis;
+    ifstream fin;
 
-    ifstream fin(failoPavadinimas);
+    while (true)
+    {
+        try
+        {
+            fin.open(failoPavadinimas);
+            if (fin.fail())
+            {
+                throw "Nepavyko atidaryti failo.";
+            }
+            else
+                break;
+        }
+        catch (const char *e)
+        {
+            cout << e << endl;
+            failoPavadinimas = failoPasirinkimas("Įveskite kitą failo pavadinimą: ");
+            continue;
+        }
+    }
     buferis << fin.rdbuf();
     fin.close();
 
@@ -298,7 +317,7 @@ void isvedimas(vector<Stud> studentai, int galutinioBaloPasirinkimas, ostream &i
         buferis << setw(12) << i.vardas;
         buferis << setw(16) << i.pavarde;
         if (galutinioBaloPasirinkimas == 1)
-            buferis << setw(20) << fixed << setprecision(2) << (vidurkis(i.nd) * 0.4) + (i.egz * 0.6);
+            buferis << setw(20) << fixed << setprecision(2) << (vidurkis(i.nd) * 0.4) + (i.egz * 0.6) << endl;
         else
             buferis << setw(20) << fixed << setprecision(2) << (mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
     }
@@ -360,7 +379,7 @@ void rusiavimas(vector<Stud> &studentai)
             if (cin.fail())
             {
                 cin.clear();
-                cin.ignore();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 throw "Įvedėte ne skaičių!";
             }
             else if (rusiavimoPasirinkimas < 1 || rusiavimoPasirinkimas > 4)
@@ -386,6 +405,7 @@ void rusiavimas(vector<Stud> &studentai)
 
 string failoPasirinkimas(string klausimas)
 {
+
     system("dir /b *.txt > temp.txt");
     ifstream fin("temp.txt");
     vector<string> failuPavadinimai;
@@ -419,7 +439,7 @@ string failoPasirinkimas(string klausimas)
             if (cin.fail())
             {
                 cin.clear();
-                cin.ignore();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 throw "Įvedėte ne skaičių!";
             }
             else if (failoNumeris < 1 || failoNumeris > failuPavadinimai.size())

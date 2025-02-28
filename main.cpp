@@ -22,7 +22,7 @@ int main()
             if (cin.fail())
             {
                 cin.clear();
-                cin.ignore();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 throw "Įvedėte ne skaičių!";
             }
             else if (meniuPasirinkimas < 1 || meniuPasirinkimas > 6)
@@ -54,7 +54,7 @@ int main()
                 if (cin.fail())
                 {
                     cin.clear();
-                    cin.ignore();
+                    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                     throw "Įvedėte ne skaičių!";
                 }
                 else if (isvedimoPasirinkimas < 1 || isvedimoPasirinkimas > 2)
@@ -79,7 +79,7 @@ int main()
                 if (cin.fail())
                 {
                     cin.clear();
-                    cin.ignore();
+                    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                     throw "Įvedėte ne skaičių!";
                 }
                 else if (galutinioBaloPasirinkimas < 1 || galutinioBaloPasirinkimas > 2)
@@ -126,7 +126,7 @@ int main()
                 if (cin.fail())
                 {
                     cin.clear();
-                    cin.ignore();
+                    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                     throw "Įvedėte ne skaičių!";
                 }
                 else if (galutinioBaloPasirinkimas < 1 || galutinioBaloPasirinkimas > 2)
