@@ -3,10 +3,60 @@
 
 void vardoIvedimas(Stud &laik)
 {
-    cout << "Įveskite studento vardą: ";
-    cin >> laik.vardas;
-    cout << "Įveskite studento pavardę: ";
-    cin >> laik.pavarde;
+    while (true)
+    {
+        try
+        {
+            cout << "Įveskite studento vardą: ";
+            cin >> laik.vardas;
+            bool blogasIvedimas = false;
+            for (char c : laik.vardas)
+            {
+                if (!isalpha(c))
+                    blogasIvedimas = true;
+            }
+            if (blogasIvedimas)
+            {
+                throw runtime_error("Įvedėte netinkamą simbolį");
+                cin.clear();
+                cin.ignore();
+            }
+            else
+                break;
+        }
+        catch (runtime_error &e)
+        {
+            cout << e.what() << endl;
+            continue;
+        }
+    }
+    while (true)
+    {
+        try
+        {
+            cout << "Įveskite studento pavardę: ";
+            cin >> laik.pavarde;
+            bool blogasIvedimas = false;
+            for (char c : laik.pavarde)
+            {
+                if (!isalpha(c))
+                    blogasIvedimas = true;
+            }
+            if (blogasIvedimas)
+            {
+                throw runtime_error("Įvedėte netinkamą simbolį");
+                cin.clear();
+                cin.ignore();
+            }
+            else
+                break;
+        }
+        catch (runtime_error &e)
+        {
+            cout << e.what() << endl;
+            continue;
+        }
+    }
 }
 
 void pazymiuIvedimas(Stud &laik)
@@ -14,16 +64,79 @@ void pazymiuIvedimas(Stud &laik)
     bool naujasPazymys = true;
     int pazymys, pasirinkimas;
     cout << "Įveskite studento egzamino rezultatą: ";
-    cin >> laik.egz;
+    while (true)
+    {
+        try
+        {
+            cin >> laik.egz;
+            if (cin.fail())
+            {
+                cin.clear();
+                cin.ignore();
+                throw runtime_error("Įvedėte ne skaičių!");
+            }
+            else if (laik.egz < 1 || laik.egz > 10)
+                throw runtime_error("Įvedėte netinkamą skaičių!");
+            else
+                break;
+        }
+        catch (runtime_error &e)
+        {
+            cout << e.what() << endl;
+            continue;
+        }
+    }
     while (naujasPazymys)
     {
-        cout << "Įveskite studento namų darbų pažymį: ";
-        cin >> pazymys;
+        while (true)
+        {
+            try
+            {
+                cout << "Įveskite studento namų darbų pažymį: ";
+                cin >> pazymys;
+                if (cin.fail())
+                {
+                    cin.clear();
+                    cin.ignore();
+                    throw runtime_error("Įvedėte ne skaičių!");
+                }
+                else if (pazymys < 1 || pazymys > 10)
+                    throw runtime_error("Įvedėte netinkamą skaičių!");
+                else
+                    break;
+            }
+            catch (runtime_error &e)
+            {
+                cout << e.what() << endl;
+                continue;
+            }
+        }
         laik.nd.push_back(pazymys);
         cout << "Ar norite įvesti dar vieną pažymį?" << endl;
         cout << "1 - taip" << endl;
         cout << "2 - ne" << endl;
-        cin >> pasirinkimas;
+        while (true)
+        {
+            try
+            {
+                cin >> pasirinkimas;
+                if (cin.fail())
+                {
+                    cin.clear();
+                    cin.ignore();
+                    throw runtime_error("Įvedėte ne skaičių!");
+                }
+                else if (pasirinkimas < 1 || pasirinkimas > 2)
+                    throw runtime_error("Įvedėte netinkamą skaičių!");
+                else
+                    break;
+            }
+            catch (runtime_error &e)
+            {
+                cout << e.what() << endl;
+                continue;
+            }
+        }
         if (pasirinkimas == 2)
             naujasPazymys = false;
     }
@@ -105,24 +218,6 @@ double mediana(vector<int> nd)
         return nd[floor(nd.size() / 2)];
 }
 
-void isvedimasIFaila(vector<Stud> studentai)
-{
-    stringstream buferis;
-    buferis << setw(12) << left << "Vardas" << setw(16) << "Pavardė" << setw(20) << "Galutinis (Vid.)" << setw(20) << "Galutinis (Med.)" << endl;
-    buferis << "--------------------------------------------------------------" << endl;
-    for (Stud i : studentai)
-    {
-        buferis << setw(12) << i.vardas;
-        buferis << setw(16) << i.pavarde;
-        buferis << setw(20) << fixed << setprecision(2) << (vidurkis(i.nd) * 0.4) + (i.egz * 0.6);
-        buferis << setw(20) << fixed << setprecision(2) << (mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
-    }
-
-    ofstream fout("rez.txt");
-    fout << buferis.rdbuf();
-    fout.close();
-}
-
 void nuskaitymasSuBuferiu(vector<Stud> &studentai, string failoPavadinimas)
 {
     vector<string> laik;
@@ -168,7 +263,7 @@ void nuskaitymasSuBuferiu(vector<Stud> &studentai, string failoPavadinimas)
     }
 }
 
-void isvedimas(vector<Stud> studentai, int galutinioBaloPasirinkimas, ostream & isvedimoBudas)
+void isvedimas(vector<Stud> studentai, int galutinioBaloPasirinkimas, ostream &isvedimoBudas)
 {
     isvedimoBudas << setw(12) << left << "Vardas";
     isvedimoBudas << setw(15) << "Pavardė";
@@ -226,7 +321,9 @@ void testas(string failoPavadinimas)
     {
         auto t1 = std::chrono::high_resolution_clock::now();
         nuskaitymasSuBuferiu(studentai, failoPavadinimas);
-        isvedimasIFaila(studentai);
+        ofstream fout("rez.txt");
+        isvedimas(studentai, 1, fout);
+        fout.close();
         auto t2 = std::chrono::high_resolution_clock::now();
         vidurkis += ((t2 - t1) / 1.0s);
     }
@@ -300,11 +397,12 @@ string failoPasirinkimas(string klausimas)
     {
         cout << i << " - " << failuPavadinimai[i - 1] << endl;
     }
-    while(true)
+    while (true)
     {
-        try{
-    cin >> failoNumeris;
-    if (cin.fail())
+        try
+        {
+            cin >> failoNumeris;
+            if (cin.fail())
             {
                 cin.clear();
                 cin.ignore();
