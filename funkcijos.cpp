@@ -17,16 +17,16 @@ void vardoIvedimas(Stud &laik)
             }
             if (blogasIvedimas)
             {
-                throw runtime_error("Įvedėte netinkamą simbolį");
+                throw "Įvedėte netinkamą simbolį";
                 cin.clear();
                 cin.ignore();
             }
             else
                 break;
         }
-        catch (runtime_error &e)
+        catch (const char *e)
         {
-            cout << e.what() << endl;
+            cout << e << endl;
             continue;
         }
     }
@@ -44,16 +44,16 @@ void vardoIvedimas(Stud &laik)
             }
             if (blogasIvedimas)
             {
-                throw runtime_error("Įvedėte netinkamą simbolį");
+                throw "Įvedėte netinkamą simbolį";
                 cin.clear();
                 cin.ignore();
             }
             else
                 break;
         }
-        catch (runtime_error &e)
+        catch (const char *e)
         {
-            cout << e.what() << endl;
+            cout << e << endl;
             continue;
         }
     }
@@ -63,26 +63,26 @@ void pazymiuIvedimas(Stud &laik)
 {
     bool naujasPazymys = true;
     int pazymys, pasirinkimas;
-    cout << "Įveskite studento egzamino rezultatą: ";
     while (true)
     {
         try
         {
+            cout << "Įveskite studento egzamino rezultatą: ";
             cin >> laik.egz;
             if (cin.fail())
             {
                 cin.clear();
                 cin.ignore();
-                throw runtime_error("Įvedėte ne skaičių!");
+                throw "Įvedėte ne skaičių!";
             }
             else if (laik.egz < 1 || laik.egz > 10)
-                throw runtime_error("Įvedėte netinkamą skaičių!");
+                throw "Įvedėte netinkamą skaičių!";
             else
                 break;
         }
-        catch (runtime_error &e)
+        catch (const char *e)
         {
-            cout << e.what() << endl;
+            cout << e << endl;
             continue;
         }
     }
@@ -98,42 +98,42 @@ void pazymiuIvedimas(Stud &laik)
                 {
                     cin.clear();
                     cin.ignore();
-                    throw runtime_error("Įvedėte ne skaičių!");
+                    throw "Įvedėte ne skaičių!";
                 }
                 else if (pazymys < 1 || pazymys > 10)
-                    throw runtime_error("Įvedėte netinkamą skaičių!");
+                    throw "Įvedėte netinkamą skaičių!";
                 else
                     break;
             }
-            catch (runtime_error &e)
+            catch (const char *e)
             {
-                cout << e.what() << endl;
+                cout << e << endl;
                 continue;
             }
         }
         laik.nd.push_back(pazymys);
-        cout << "Ar norite įvesti dar vieną pažymį?" << endl;
-        cout << "1 - taip" << endl;
-        cout << "2 - ne" << endl;
         while (true)
         {
             try
             {
+                cout << "Ar norite įvesti dar vieną pažymį?" << endl;
+                cout << "1 - taip" << endl;
+                cout << "2 - ne" << endl;
                 cin >> pasirinkimas;
                 if (cin.fail())
                 {
                     cin.clear();
                     cin.ignore();
-                    throw runtime_error("Įvedėte ne skaičių!");
+                    throw "Įvedėte ne skaičių!";
                 }
                 else if (pasirinkimas < 1 || pasirinkimas > 2)
-                    throw runtime_error("Įvedėte netinkamą skaičių!");
+                    throw "Įvedėte netinkamą skaičių!";
                 else
                     break;
             }
-            catch (runtime_error &e)
+            catch (const char *e)
             {
-                cout << e.what() << endl;
+                cout << e << endl;
                 continue;
             }
         }
@@ -188,28 +188,28 @@ void ivedimas(vector<Stud> &studentai, int &meniuPasirinkimas)
             pazymiuGeneravimas(laik);
         }
         studentai.push_back(laik);
-        cout << "Ar norite įvesti dar vieną studentą?" << endl;
-        cout << "1 - taip" << endl;
-        cout << "2 - ne" << endl;
         while (true)
         {
             try
             {
+                cout << "Ar norite įvesti dar vieną studentą?" << endl;
+                cout << "1 - taip" << endl;
+                cout << "2 - ne" << endl;
                 cin >> pasirinkimas;
                 if (cin.fail())
                 {
                     cin.clear();
                     cin.ignore();
-                    throw runtime_error("Įvedėte ne skaičių!");
+                    throw "Įvedėte ne skaičių!";
                 }
                 else if (pasirinkimas < 1 || pasirinkimas > 2)
-                    throw runtime_error("Įvedėte netinkamą skaičių!");
+                    throw "Įvedėte netinkamą skaičių!";
                 else
                     break;
             }
-            catch (runtime_error &e)
+            catch (const char *e)
             {
-                cout << e.what() << endl;
+                cout << e << endl;
                 continue;
             }
         }
@@ -286,32 +286,24 @@ void nuskaitymasSuBuferiu(vector<Stud> &studentai, string failoPavadinimas)
 
 void isvedimas(vector<Stud> studentai, int galutinioBaloPasirinkimas, ostream &isvedimoBudas)
 {
-    isvedimoBudas << setw(12) << left << "Vardas";
-    isvedimoBudas << setw(15) << "Pavardė";
+    stringstream buferis;
+    buferis << setw(12) << left << "Vardas" << setw(16) << "Pavardė";
     if (galutinioBaloPasirinkimas == 1)
-        isvedimoBudas << setw(20) << "Galutinis (Vid.)" << endl;
-    else if (galutinioBaloPasirinkimas == 2)
-        isvedimoBudas << setw(20) << "Galutinis (Med.)" << endl;
+        buferis << setw(20) << "Galutinis (Vid.)" << endl;
     else
-    {
-        isvedimoBudas << setw(20) << "Galutinis (Vid.)";
-        isvedimoBudas << setw(20) << "Galutinis (Med.)" << endl;
-    }
-    isvedimoBudas << "----------------------------------------" << endl;
+        buferis << setw(20) << "Galutinis (Med.)" << endl;
+    buferis << "--------------------------------------------------------------" << endl;
     for (Stud i : studentai)
     {
-        isvedimoBudas << setw(12) << i.vardas;
-        isvedimoBudas << setw(15) << i.pavarde;
+        buferis << setw(12) << i.vardas;
+        buferis << setw(16) << i.pavarde;
         if (galutinioBaloPasirinkimas == 1)
-            isvedimoBudas << setw(20) << fixed << setprecision(2) << (vidurkis(i.nd) * 0.4) + (i.egz * 0.6) << endl;
-        else if (galutinioBaloPasirinkimas == 2)
-            isvedimoBudas << setw(20) << fixed << setprecision(2) << (mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
+            buferis << setw(20) << fixed << setprecision(2) << (vidurkis(i.nd) * 0.4) + (i.egz * 0.6);
         else
-        {
-            isvedimoBudas << setw(20) << fixed << setprecision(2) << (vidurkis(i.nd) * 0.4) + (i.egz * 0.6);
-            isvedimoBudas << setw(20) << fixed << setprecision(2) << (mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
-        }
+            buferis << setw(20) << fixed << setprecision(2) << (mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
     }
+
+    isvedimoBudas << buferis.rdbuf();
 }
 
 bool pagalVarda(Stud &a, Stud &b)
@@ -346,7 +338,7 @@ void testas(string failoPavadinimas)
         isvedimas(studentai, 1, fout);
         fout.close();
         auto t2 = std::chrono::high_resolution_clock::now();
-        cout << i+1 << " testas užtruko: " << (t2-t1)/1.0s << " s." << endl;
+        cout << i + 1 << " testas užtruko: " << (t2 - t1) / 1.0s << " s." << endl;
         vidurkis += ((t2 - t1) / 1.0s);
     }
     cout << "Vidutinis laikas: " << vidurkis / 3 << " s." << endl;
@@ -369,16 +361,16 @@ void rusiavimas(vector<Stud> &studentai)
             {
                 cin.clear();
                 cin.ignore();
-                throw runtime_error("Įvedėte ne skaičių!");
+                throw "Įvedėte ne skaičių!";
             }
             else if (rusiavimoPasirinkimas < 1 || rusiavimoPasirinkimas > 4)
-                throw runtime_error("Įvedėte netinkamą skaičių!");
+                throw "Įvedėte netinkamą skaičių!";
             else
                 break;
         }
-        catch (runtime_error &e)
+        catch (const char *e)
         {
-            cout << e.what() << endl;
+            cout << e << endl;
             continue;
         }
     }
@@ -428,16 +420,16 @@ string failoPasirinkimas(string klausimas)
             {
                 cin.clear();
                 cin.ignore();
-                throw runtime_error("Įvedėte ne skaičių!");
+                throw "Įvedėte ne skaičių!";
             }
             else if (failoNumeris < 1 || failoNumeris > failuPavadinimai.size())
-                throw runtime_error("Įvedėte netinkamą skaičių!");
+                throw "Įvedėte netinkamą skaičių!";
             else
                 break;
         }
-        catch (runtime_error &e)
+        catch (const char *e)
         {
-            cout << e.what() << endl;
+            cout << e << endl;
             continue;
         }
     }

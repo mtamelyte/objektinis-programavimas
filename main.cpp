@@ -16,23 +16,23 @@ int main()
             cout << "2 - Sugeneruoti pažymius" << endl;
             cout << "3 - Sugeneruoti pažymius, vardus ir pavardes" << endl;
             cout << "4 - Nuskaityti duomenis iš failo" << endl;
-            cout << "5 - Testuoti kodą" << endl;
+            cout << "5 - Testuoti kodą ir išvesti 3 laikų vidurkį" << endl;
             cout << "6 - Baigti darbą" << endl;
             cin >> meniuPasirinkimas;
             if (cin.fail())
             {
                 cin.clear();
                 cin.ignore();
-                throw runtime_error("Įvedėte ne skaičių!");
+                throw "Įvedėte ne skaičių!";
             }
             else if (meniuPasirinkimas < 1 || meniuPasirinkimas > 6)
-                throw runtime_error("Įvedėte netinkamą skaičių!");
+                throw "Įvedėte netinkamą skaičių!";
             else
                 break;
         }
-        catch (runtime_error &e)
+        catch (const char *e)
         {
-            cout << e.what() << endl;
+            cout << e << endl;
             continue;
         }
     }
@@ -55,41 +55,41 @@ int main()
                 {
                     cin.clear();
                     cin.ignore();
-                    throw runtime_error("Įvedėte ne skaičių!");
+                    throw "Įvedėte ne skaičių!";
                 }
                 else if (isvedimoPasirinkimas < 1 || isvedimoPasirinkimas > 2)
-                    throw runtime_error("Įvedėte netinkamą skaičių!");
+                    throw "Įvedėte netinkamą skaičių!";
                 else
                     break;
             }
-            catch (runtime_error &e)
+            catch (const char *e)
             {
-                cout << e.what() << endl;
+                cout << e << endl;
                 continue;
             }
         }
-        cout << "Galutinio balo skaičiavimui norėtum naudoti: " << endl;
-        cout << "1 - vidurkį" << endl;
-        cout << "2 - medianą" << endl;
         while (true)
         {
             try
             {
+                cout << "Galutinio balo skaičiavimui norėtum naudoti: " << endl;
+                cout << "1 - vidurkį" << endl;
+                cout << "2 - medianą" << endl;
                 cin >> galutinioBaloPasirinkimas;
                 if (cin.fail())
                 {
                     cin.clear();
                     cin.ignore();
-                    throw runtime_error("Įvedėte ne skaičių!");
+                    throw "Įvedėte ne skaičių!";
                 }
                 else if (galutinioBaloPasirinkimas < 1 || galutinioBaloPasirinkimas > 2)
-                    throw runtime_error("Įvedėte netinkamą skaičių!");
+                    throw "Įvedėte netinkamą skaičių!";
                 else
                     break;
             }
-            catch (runtime_error &e)
+            catch (const char *e)
             {
-                cout << e.what() << endl;
+                cout << e << endl;
                 continue;
             }
         }
@@ -115,28 +115,28 @@ int main()
     default:
     {
         ivedimas(studentai, meniuPasirinkimas);
-        cout << "Galutinio balo skaičiavimui norėtum naudoti: " << endl;
-        cout << "1 - vidurkį" << endl;
-        cout << "2 - medianą" << endl;
         while (true)
         {
             try
             {
+                cout << "Galutinio balo skaičiavimui norėtum naudoti: " << endl;
+                cout << "1 - vidurkį" << endl;
+                cout << "2 - medianą" << endl;
                 cin >> galutinioBaloPasirinkimas;
                 if (cin.fail())
                 {
                     cin.clear();
                     cin.ignore();
-                    throw runtime_error("Įvedėte ne skaičių!");
+                    throw "Įvedėte ne skaičių!";
                 }
                 else if (galutinioBaloPasirinkimas < 1 || galutinioBaloPasirinkimas > 2)
-                    throw runtime_error("Įvedėte netinkamą skaičių!");
+                    throw "Įvedėte netinkamą skaičių!";
                 else
                     break;
             }
-            catch (runtime_error &e)
+            catch (const char *e)
             {
-                cout << e.what() << endl;
+                cout << e << endl;
                 continue;
             }
         }
