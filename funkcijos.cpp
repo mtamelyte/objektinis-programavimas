@@ -246,7 +246,6 @@ void nuskaitymasSuBuferiu(vector<Stud> &studentai, string failoPavadinimas)
     string eilute;
     stringstream buferis;
     ifstream fin;
-
     while (true)
     {
         try
@@ -470,15 +469,15 @@ void failoGeneravimas(int failoIlgis)
     {
         buferis << setw(10) << "ND" + to_string(i+1);
     }
-    buferis << setw(10) << "Egz." << endl;
-    for(int i=0; i<failoIlgis; i++)
+    buferis << setw(10) << "Egz.";
+    for(int i=0; i<failoIlgis-1; i++)
     {
+        buferis << endl;
         buferis << setw(15) << "Vardas" + to_string(i+1) << setw(18) << "Pavarde" + to_string(i+1);
         for(int j=0; j<k+1; j++)
         {
             buferis << setw(10) << pazymys(mt);
         }
-        buferis << endl;
     }
     fout.open(failoPavadinimas);
     fout << buferis.rdbuf();
@@ -514,4 +513,21 @@ int galutinioBaloPasirinkimas()
             }
         }
         return pasirinkimas;
+}
+
+void isskaidymasIGrupes(vector <Stud> studentai, vector <Stud> & protingi, vector <Stud> & neprotingi, int galutinisBalas)
+{
+    for(Stud s : studentai)
+    {
+        if(galutinisBalas==1)
+        {
+            if((vidurkis(s.nd) * 0.4) + (s.egz * 0.6) >= 5) protingi.push_back(s);
+            else neprotingi.push_back(s);
+        }
+        else 
+        {
+            if((mediana(s.nd) * 0.4) + (s.egz * 0.6) >= 5) protingi.push_back(s);
+            else neprotingi.push_back(s);
+        }
+    }
 }

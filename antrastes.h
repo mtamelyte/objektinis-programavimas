@@ -17,3 +17,4 @@ void rusiavimas(vector<Stud> &studentai);
 string failoPasirinkimas(string klausimas);
 void failoGeneravimas(int failoIlgis);
 int galutinioBaloPasirinkimas();
+void isskaidymasIGrupes(vector <Stud> studentai, vector <Stud> & protingi, vector <Stud> & neprotingi, int galutinisBalas);
