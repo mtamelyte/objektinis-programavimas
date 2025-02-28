@@ -346,7 +346,7 @@ void testas(string failoPavadinimas)
         isvedimas(studentai, 1, fout);
         fout.close();
         auto t2 = std::chrono::high_resolution_clock::now();
-        cout << i+1 << 
+        cout << i+1 << " testas užtruko: " << (t2-t1)/1.0s << " s." << endl;
         vidurkis += ((t2 - t1) / 1.0s);
     }
     cout << "Vidutinis laikas: " << vidurkis / 3 << " s." << endl;
