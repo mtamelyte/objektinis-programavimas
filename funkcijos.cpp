@@ -484,3 +484,34 @@ void failoGeneravimas(int failoIlgis)
     fout << buferis.rdbuf();
     fout.close();
 }
+
+int galutinioBaloPasirinkimas()
+{
+    int pasirinkimas;
+    while (true)
+        {
+            try
+            {
+                cout << "Galutinio balo skaičiavimui norėtum naudoti: " << endl;
+                cout << "1 - vidurkį" << endl;
+                cout << "2 - medianą" << endl;
+                cin >> pasirinkimas;
+                if (cin.fail())
+                {
+                    cin.clear();
+                    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    throw "Įvedėte ne skaičių!";
+                }
+                else if (pasirinkimas < 1 || pasirinkimas > 2)
+                    throw "Įvedėte netinkamą skaičių!";
+                else
+                    break;
+            }
+            catch (const char *e)
+            {
+                cout << e << endl;
+                continue;
+            }
+        }
+        return pasirinkimas;
+}

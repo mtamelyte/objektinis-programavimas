@@ -5,7 +5,7 @@ int main()
 {
     srand(time(NULL));
     std::setlocale(LC_ALL, "en_US.UTF-8");
-    int galutinioBaloPasirinkimas = 0, meniuPasirinkimas;
+    int meniuPasirinkimas;
     vector<Stud> studentai;
     while (true)
     {
@@ -69,37 +69,12 @@ int main()
                 continue;
             }
         }
-        while (true)
-        {
-            try
-            {
-                cout << "Galutinio balo skaičiavimui norėtum naudoti: " << endl;
-                cout << "1 - vidurkį" << endl;
-                cout << "2 - medianą" << endl;
-                cin >> galutinioBaloPasirinkimas;
-                if (cin.fail())
-                {
-                    cin.clear();
-                    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                    throw "Įvedėte ne skaičių!";
-                }
-                else if (galutinioBaloPasirinkimas < 1 || galutinioBaloPasirinkimas > 2)
-                    throw "Įvedėte netinkamą skaičių!";
-                else
-                    break;
-            }
-            catch (const char *e)
-            {
-                cout << e << endl;
-                continue;
-            }
-        }
         if (isvedimoPasirinkimas == 1)
-            isvedimas(studentai, galutinioBaloPasirinkimas, cout);
+            isvedimas(studentai, galutinioBaloPasirinkimas(), cout);
         else
         {
             ofstream fout("rez.txt");
-            isvedimas(studentai, galutinioBaloPasirinkimas, fout);
+            isvedimas(studentai, galutinioBaloPasirinkimas(), fout);
             fout.close();
         }
     }
@@ -151,33 +126,8 @@ int main()
     default:
     {
         ivedimas(studentai, meniuPasirinkimas);
-        while (true)
-        {
-            try
-            {
-                cout << "Galutinio balo skaičiavimui norėtum naudoti: " << endl;
-                cout << "1 - vidurkį" << endl;
-                cout << "2 - medianą" << endl;
-                cin >> galutinioBaloPasirinkimas;
-                if (cin.fail())
-                {
-                    cin.clear();
-                    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                    throw "Įvedėte ne skaičių!";
-                }
-                else if (galutinioBaloPasirinkimas < 1 || galutinioBaloPasirinkimas > 2)
-                    throw "Įvedėte netinkamą skaičių!";
-                else
-                    break;
-            }
-            catch (const char *e)
-            {
-                cout << e << endl;
-                continue;
-            }
-        }
         rusiavimas(studentai);
-        isvedimas(studentai, galutinioBaloPasirinkimas, cout);
+        isvedimas(studentai, galutinioBaloPasirinkimas(), cout);
     }
     break;
     }

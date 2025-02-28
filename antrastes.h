@@ -16,3 +16,4 @@ void testas(string failoPavadinimas);
 void rusiavimas(vector<Stud> &studentai);
 string failoPasirinkimas(string klausimas);
 void failoGeneravimas(int failoIlgis);
+int galutinioBaloPasirinkimas();
