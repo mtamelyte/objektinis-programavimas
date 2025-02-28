@@ -455,3 +455,10 @@ string failoPasirinkimas(string klausimas)
     }
     return failuPavadinimai[failoNumeris - 1];
 }
+
+void generavimas(int failoIlgis)
+{
+    ifstream fin;
+    string failoPavadinimas = "studentai" + to_string(failoIlgis);
+    cout << failoPavadinimas;
+}
