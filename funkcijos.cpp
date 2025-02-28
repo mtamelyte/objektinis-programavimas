@@ -456,9 +456,31 @@ string failoPasirinkimas(string klausimas)
     return failuPavadinimai[failoNumeris - 1];
 }
 
-void generavimas(int failoIlgis)
+void failoGeneravimas(int failoIlgis)
 {
-    ifstream fin;
-    string failoPavadinimas = "studentai" + to_string(failoIlgis);
-    cout << failoPavadinimas;
+    std::mt19937 mt(static_cast<long unsigned int>(std::chrono::high_resolution_clock::now().time_since_epoch().count()));
+    std::uniform_int_distribution<int> pazymiuKiekis(1, 20);
+    std::uniform_int_distribution<int> pazymys(1, 10);
+    ofstream fout;
+    string failoPavadinimas = "studentai" + to_string(failoIlgis) + ".txt";
+    stringstream buferis;
+    buferis << setw(15) << left << "Vardas" << setw(18) << "Pavarde" << setw(10);
+    int k=pazymiuKiekis(mt);
+    for(int i=0; i<k; i++)
+    {
+        buferis << setw(10) << "ND" + to_string(i+1);
+    }
+    buferis << setw(10) << "Egz." << endl;
+    for(int i=0; i<failoIlgis; i++)
+    {
+        buferis << setw(15) << "Vardas" + to_string(i+1) << setw(18) << "Pavarde" + to_string(i+1);
+        for(int j=0; j<k+1; j++)
+        {
+            buferis << setw(10) << pazymys(mt);
+        }
+        buferis << endl;
+    }
+    fout.open(failoPavadinimas);
+    fout << buferis.rdbuf();
+    fout.close();
 }

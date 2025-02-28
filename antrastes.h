@@ -15,4 +15,4 @@ bool pagalMediana(Stud &a, Stud &b);
 void testas(string failoPavadinimas);
 void rusiavimas(vector<Stud> &studentai);
 string failoPasirinkimas(string klausimas);
-void generavimas(int failoIlgis);
+void failoGeneravimas(int failoIlgis);

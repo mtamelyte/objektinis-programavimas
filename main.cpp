@@ -26,7 +26,7 @@ int main()
                 cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 throw "Įvedėte ne skaičių!";
             }
-            else if (meniuPasirinkimas < 1 || meniuPasirinkimas > 6)
+            else if (meniuPasirinkimas < 1 || meniuPasirinkimas > 7)
                 throw "Įvedėte netinkamą skaičių!";
             else
                 break;
@@ -141,7 +141,7 @@ int main()
                 continue;
             }
         }
-        generavimas(dydzioPasirinkimas);
+        failoGeneravimas(dydzioPasirinkimas);
     }
     case 7:
     {
