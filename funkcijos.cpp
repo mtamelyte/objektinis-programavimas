@@ -191,7 +191,28 @@ void ivedimas(vector<Stud> &studentai, int &meniuPasirinkimas)
         cout << "Ar norite įvesti dar vieną studentą?" << endl;
         cout << "1 - taip" << endl;
         cout << "2 - ne" << endl;
-        cin >> pasirinkimas;
+        while (true)
+        {
+            try
+            {
+                cin >> pasirinkimas;
+                if (cin.fail())
+                {
+                    cin.clear();
+                    cin.ignore();
+                    throw runtime_error("Įvedėte ne skaičių!");
+                }
+                else if (pasirinkimas < 1 || pasirinkimas > 2)
+                    throw runtime_error("Įvedėte netinkamą skaičių!");
+                else
+                    break;
+            }
+            catch (runtime_error &e)
+            {
+                cout << e.what() << endl;
+                continue;
+            }
+        }
         if (pasirinkimas == 2)
             naujasStudentas = false;
     }
@@ -325,6 +346,7 @@ void testas(string failoPavadinimas)
         isvedimas(studentai, 1, fout);
         fout.close();
         auto t2 = std::chrono::high_resolution_clock::now();
+        cout << i+1 << 
         vidurkis += ((t2 - t1) / 1.0s);
     }
     cout << "Vidutinis laikas: " << vidurkis / 3 << " s." << endl;
