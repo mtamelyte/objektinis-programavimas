@@ -71,7 +71,28 @@ int main()
         cout << "Galutinio balo skaičiavimui norėtum naudoti: " << endl;
         cout << "1 - vidurkį" << endl;
         cout << "2 - medianą" << endl;
-        cin >> galutinioBaloPasirinkimas;
+        while (true)
+        {
+            try
+            {
+                cin >> galutinioBaloPasirinkimas;
+                if (cin.fail())
+                {
+                    cin.clear();
+                    cin.ignore();
+                    throw runtime_error("Įvedėte ne skaičių!");
+                }
+                else if (galutinioBaloPasirinkimas < 1 || galutinioBaloPasirinkimas > 2)
+                    throw runtime_error("Įvedėte netinkamą skaičių!");
+                else
+                    break;
+            }
+            catch (runtime_error &e)
+            {
+                cout << e.what() << endl;
+                continue;
+            }
+        }
         if (isvedimoPasirinkimas == 1)
             isvedimas(studentai, galutinioBaloPasirinkimas, cout);
         else
@@ -97,7 +118,28 @@ int main()
         cout << "Galutinio balo skaičiavimui norėtum naudoti: " << endl;
         cout << "1 - vidurkį" << endl;
         cout << "2 - medianą" << endl;
-        cin >> galutinioBaloPasirinkimas;
+        while (true)
+        {
+            try
+            {
+                cin >> galutinioBaloPasirinkimas;
+                if (cin.fail())
+                {
+                    cin.clear();
+                    cin.ignore();
+                    throw runtime_error("Įvedėte ne skaičių!");
+                }
+                else if (galutinioBaloPasirinkimas < 1 || galutinioBaloPasirinkimas > 2)
+                    throw runtime_error("Įvedėte netinkamą skaičių!");
+                else
+                    break;
+            }
+            catch (runtime_error &e)
+            {
+                cout << e.what() << endl;
+                continue;
+            }
+        }
         rusiavimas(studentai);
         isvedimas(studentai, galutinioBaloPasirinkimas, cout);
     }
