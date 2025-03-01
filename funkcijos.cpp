@@ -546,10 +546,31 @@ void tyrimas(vector<Stud> studentai)
     int dydzioPasirinkimas = 1000;
     int tyrimoPasirinkimas;
     string sugeneruotasFailas;
-    cout << "Kuri tyrima nori atlikti?" << endl;
-    cout << "1" << endl;
-    cout << "2" << endl;
-    cin >> tyrimoPasirinkimas;
+    while (true)
+    {
+        try
+        {
+            cout << "Kuri tyrima nori atlikti?" << endl;
+            cout << "1" << endl;
+            cout << "2" << endl;
+            cin >> tyrimoPasirinkimas;
+            if (cin.fail())
+            {
+                cin.clear();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                throw "Įvedėte ne skaičių!";
+            }
+            else if (pasirinkimas < 1 || pasirinkimas > 2)
+                throw "Įvedėte netinkamą skaičių!";
+            else
+                break;
+        }
+        catch (const char *e)
+        {
+            cout << e << endl;
+            continue;
+        }
+    }
     for (int i = 0; i < 5; i++)
     {
         double vid = 0;
