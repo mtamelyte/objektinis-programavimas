@@ -366,9 +366,8 @@ void testas(string failoPavadinimas)
     cout << "Vidutinis laikas: " << vidurkis / 3 << " s." << endl;
 }
 
-void rusiavimas(vector<Stud> &studentai)
-{
-    int rusiavimoPasirinkimas;
+int rusiavimoPasirinkimas(){
+    int pasirinkimas;
     while (true)
     {
         try
@@ -378,14 +377,14 @@ void rusiavimas(vector<Stud> &studentai)
             cout << "2 - pagal pavardę" << endl;
             cout << "3 - pagal vidurkį" << endl;
             cout << "4 - pagal medianą" << endl;
-            cin >> rusiavimoPasirinkimas;
+            cin >> pasirinkimas;
             if (cin.fail())
             {
                 cin.clear();
                 cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 throw "Įvedėte ne skaičių!";
             }
-            else if (rusiavimoPasirinkimas < 1 || rusiavimoPasirinkimas > 4)
+            else if (pasirinkimas < 1 || pasirinkimas > 4)
                 throw "Įvedėte netinkamą skaičių!";
             else
                 break;
@@ -396,13 +395,18 @@ void rusiavimas(vector<Stud> &studentai)
             continue;
         }
     }
-    if (rusiavimoPasirinkimas == 1)
+    return pasirinkimas;
+}
+
+void rusiavimas(vector<Stud> &studentai, int pasirinkimas)
+{
+    if (pasirinkimas == 1)
         sort(studentai.begin(), studentai.end(), pagalVarda);
-    if (rusiavimoPasirinkimas == 2)
+    if (pasirinkimas == 2)
         sort(studentai.begin(), studentai.end(), pagalPavarde);
-    if (rusiavimoPasirinkimas == 3)
+    if (pasirinkimas == 3)
         sort(studentai.begin(), studentai.end(), pagalVidurki);
-    if (rusiavimoPasirinkimas == 4)
+    if (pasirinkimas == 4)
         sort(studentai.begin(), studentai.end(), pagalMediana);
 }
 
@@ -474,7 +478,7 @@ void failoGeneravimas(int failoIlgis)
         buferis << setw(10) << "ND" + to_string(i + 1);
     }
     buferis << setw(10) << "Egz.";
-    for (int i = 0; i < failoIlgis - 1; i++)
+    for (int i = 0; i < failoIlgis; i++)
     {
         buferis << endl;
         buferis << setw(15) << "Vardas" + to_string(i + 1) << setw(18) << "Pavarde" + to_string(i + 1);
@@ -525,14 +529,14 @@ void isskaidymasIGrupes(vector<Stud> studentai, vector<Stud> &protingi, vector<S
     {
         if (galutinisBalas == 1)
         {
-            if ((vidurkis(s.nd) * 0.4) + (s.egz * 0.6) >= 5)
+            if (s.galutinisSuVidurkiu >= 5)
                 protingi.push_back(s);
             else
                 neprotingi.push_back(s);
         }
         else
         {
-            if ((mediana(s.nd) * 0.4) + (s.egz * 0.6) >= 5)
+            if (s.galutinisSuMediana >= 5)
                 protingi.push_back(s);
             else
                 neprotingi.push_back(s);
@@ -544,7 +548,7 @@ void isskaidymasIGrupes(vector<Stud> studentai, vector<Stud> &protingi, vector<S
 void tyrimas(vector<Stud> studentai)
 {
     int dydzioPasirinkimas = 1000;
-    int tyrimoPasirinkimas;
+    int tyrimoPasirinkimas, rusPasirinkimas;
     string sugeneruotasFailas;
     while (true)
     {
@@ -560,7 +564,7 @@ void tyrimas(vector<Stud> studentai)
                 cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 throw "Įvedėte ne skaičių!";
             }
-            else if (pasirinkimas < 1 || pasirinkimas > 2)
+            else if (tyrimoPasirinkimas < 1 || tyrimoPasirinkimas > 2)
                 throw "Įvedėte netinkamą skaičių!";
             else
                 break;
@@ -570,6 +574,9 @@ void tyrimas(vector<Stud> studentai)
             cout << e << endl;
             continue;
         }
+    }
+    if(tyrimoPasirinkimas==2){
+        rusPasirinkimas=rusiavimoPasirinkimas();
     }
     for (int i = 0; i < 5; i++)
     {
@@ -592,7 +599,7 @@ void tyrimas(vector<Stud> studentai)
                 nuskaitymasSuBuferiu(studentai, "studentai" + to_string(dydzioPasirinkimas) + ".txt");
                 auto t4 = std::chrono::high_resolution_clock::now();
                 cout << "Failo nuskaitymas truko: " << (t4 - t3) / 1.0s << " s." << endl;
-                sort(studentai.begin(), studentai.end(), pagalVidurki);
+                rusiavimas(studentai, rusPasirinkimas);
                 auto t5 = std::chrono::high_resolution_clock::now();
                 cout << "Studentu vektoriaus surusiavimas truko: " << (t5 - t4) / 1.0s << " s." << endl;
                 isskaidymasIGrupes(studentai, protingi, neprotingi, 1);

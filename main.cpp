@@ -43,7 +43,7 @@ int main()
     {
         int isvedimoPasirinkimas;
         nuskaitymasSuBuferiu(studentai, failoPasirinkimas("Iš kurio failo norėtumėte nuskaityti duomenis?"));
-        rusiavimas(studentai);
+        rusiavimas(studentai, rusiavimoPasirinkimas());
         while (true)
         {
             try
@@ -96,7 +96,7 @@ int main()
     default:
     {
         ivedimas(studentai, meniuPasirinkimas);
-        rusiavimas(studentai);
+        rusiavimas(studentai, rusiavimoPasirinkimas());
         isvedimas(studentai, galutinioBaloPasirinkimas(), cout);
     }
     break;
