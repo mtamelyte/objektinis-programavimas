@@ -455,31 +455,31 @@ string failoPasirinkimas(string klausimas)
     return failuPavadinimai[failoNumeris - 1];
 }
 
-void failoGeneravimas(int failoIlgis)
+void failoGeneravimas(int failoIlgis, string &sugeneruotasFailas)
 {
     std::mt19937 mt(static_cast<long unsigned int>(std::chrono::high_resolution_clock::now().time_since_epoch().count()));
     std::uniform_int_distribution<int> pazymiuKiekis(1, 20);
     std::uniform_int_distribution<int> pazymys(1, 10);
     ofstream fout;
-    string failoPavadinimas = "studentai" + to_string(failoIlgis) + ".txt";
+    sugeneruotasFailas = "studentai" + to_string(failoIlgis) + ".txt";
     stringstream buferis;
     buferis << setw(15) << left << "Vardas" << setw(18) << "Pavarde" << setw(10);
-    int k=pazymiuKiekis(mt);
-    for(int i=0; i<k; i++)
+    int k = pazymiuKiekis(mt);
+    for (int i = 0; i < k; i++)
     {
-        buferis << setw(10) << "ND" + to_string(i+1);
+        buferis << setw(10) << "ND" + to_string(i + 1);
     }
     buferis << setw(10) << "Egz.";
-    for(int i=0; i<failoIlgis-1; i++)
+    for (int i = 0; i < failoIlgis - 1; i++)
     {
         buferis << endl;
-        buferis << setw(15) << "Vardas" + to_string(i+1) << setw(18) << "Pavarde" + to_string(i+1);
-        for(int j=0; j<k+1; j++)
+        buferis << setw(15) << "Vardas" + to_string(i + 1) << setw(18) << "Pavarde" + to_string(i + 1);
+        for (int j = 0; j < k + 1; j++)
         {
             buferis << setw(10) << pazymys(mt);
         }
     }
-    fout.open(failoPavadinimas);
+    fout.open(sugeneruotasFailas);
     fout << buferis.rdbuf();
     fout.close();
 }
@@ -488,46 +488,99 @@ int galutinioBaloPasirinkimas()
 {
     int pasirinkimas;
     while (true)
+    {
+        try
         {
-            try
+            cout << "Galutinio balo skaičiavimui norėtum naudoti: " << endl;
+            cout << "1 - vidurkį" << endl;
+            cout << "2 - medianą" << endl;
+            cin >> pasirinkimas;
+            if (cin.fail())
             {
-                cout << "Galutinio balo skaičiavimui norėtum naudoti: " << endl;
-                cout << "1 - vidurkį" << endl;
-                cout << "2 - medianą" << endl;
-                cin >> pasirinkimas;
-                if (cin.fail())
-                {
-                    cin.clear();
-                    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                    throw "Įvedėte ne skaičių!";
-                }
-                else if (pasirinkimas < 1 || pasirinkimas > 2)
-                    throw "Įvedėte netinkamą skaičių!";
-                else
-                    break;
+                cin.clear();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                throw "Įvedėte ne skaičių!";
             }
-            catch (const char *e)
-            {
-                cout << e << endl;
-                continue;
-            }
+            else if (pasirinkimas < 1 || pasirinkimas > 2)
+                throw "Įvedėte netinkamą skaičių!";
+            else
+                break;
         }
-        return pasirinkimas;
+        catch (const char *e)
+        {
+            cout << e << endl;
+            continue;
+        }
+    }
+    return pasirinkimas;
 }
 
-void isskaidymasIGrupes(vector <Stud> studentai, vector <Stud> & protingi, vector <Stud> & neprotingi, int galutinisBalas)
+void isskaidymasIGrupes(vector<Stud> studentai, vector<Stud> &protingi, vector<Stud> &neprotingi, int galutinisBalas)
 {
-    for(Stud s : studentai)
+    for (Stud s : studentai)
     {
-        if(galutinisBalas==1)
+        if (galutinisBalas == 1)
         {
-            if((vidurkis(s.nd) * 0.4) + (s.egz * 0.6) >= 5) protingi.push_back(s);
-            else neprotingi.push_back(s);
+            if ((vidurkis(s.nd) * 0.4) + (s.egz * 0.6) >= 5)
+                protingi.push_back(s);
+            else
+                neprotingi.push_back(s);
         }
-        else 
+        else
         {
-            if((mediana(s.nd) * 0.4) + (s.egz * 0.6) >= 5) protingi.push_back(s);
-            else neprotingi.push_back(s);
+            if ((mediana(s.nd) * 0.4) + (s.egz * 0.6) >= 5)
+                protingi.push_back(s);
+            else
+                neprotingi.push_back(s);
         }
+    }
+}
+
+void tyrimas(vector<Stud> studentai)
+{
+    int dydzioPasirinkimas = 1000;
+    int tyrimoPasirinkimas;
+    string sugeneruotasFailas;
+    cout << "Kuri tyrima nori atlikti?" << endl;
+    cout << "1" << endl;
+    cout << "2" << endl;
+    cin >> tyrimoPasirinkimas;
+    if(tyrimoPasirinkimas==1) int galutinisBalas = galutinioBaloPasirinkimas();
+    for (int i = 0; i < 5; i++)
+    {
+        if (tyrimoPasirinkimas == 1)
+        {
+            auto t1 = std::chrono::high_resolution_clock::now();
+            failoGeneravimas(dydzioPasirinkimas, sugeneruotasFailas);
+            auto t2 = std::chrono::high_resolution_clock::now();
+            cout << dydzioPasirinkimas << " studentu failo sugeneravimas truko " << (t2 - t1) / 1.0s << " " << endl;
+        }
+        if (tyrimoPasirinkimas == 2)
+        {
+            vector<Stud> protingi;
+            vector<Stud> neprotingi;
+            auto t3=std::chrono::high_resolution_clock::now();
+            nuskaitymasSuBuferiu(studentai, "studentai"+to_string(dydzioPasirinkimas)+".txt");
+            auto t4 = std::chrono::high_resolution_clock::now();
+            cout << "Failo nuskaitymas truko: " << (t4 - t3) / 1.0s << " s." << endl;
+            auto t5 = std::chrono::high_resolution_clock::now();
+            isskaidymasIGrupes(studentai, protingi, neprotingi, galutinisBalas);
+            auto t6 = std::chrono::high_resolution_clock::now();
+            cout << "Isskaidymas pagal galutini bala truko: " << (t6 - t5) / 1.0s << " s." << endl;
+            ofstream fout;
+            fout.open("protingi.txt");
+            isvedimas(protingi, galutinisBalas, fout);
+            fout.close();
+            auto t7 = std::chrono::high_resolution_clock::now();
+            cout << "Protingu vektoriaus isvedimas i faila truko " << (t7 - t6) / 1.0s << " s." << endl;
+            fout.open("neprotingi.txt");
+            isvedimas(neprotingi, galutinisBalas, fout);
+            fout.close();
+            auto t8 = std::chrono::high_resolution_clock::now();
+            cout << "Neprotingu vektoriaus isvedimas i faila truko " << (t8 - t7) / 1.0s << " s." << endl;
+            cout << "Visas procesas su " << dydzioPasirinkimas << " studentu truko " << (t8 - t3) / 1.0s << " s." << endl;
+            cout << endl;
+        }
+        dydzioPasirinkimas *= 10;
     }
 }
