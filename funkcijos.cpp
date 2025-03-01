@@ -592,8 +592,7 @@ void tyrimas(vector<Stud> studentai)
                 cout << endl;
             }
             auto pabaiga = std::chrono::high_resolution_clock::now();
-            double trukme = ((pabaiga - pradzia) / 1.0s);
-            vid += trukme;
+            vid += ((pabaiga - pradzia) / 1.0s);
         }
         cout << "Vidutiniskai tyrimas su " << dydzioPasirinkimas << " studentu uztruko " << vid / 3 << " s." << endl;
         cout << endl;
