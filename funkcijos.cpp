@@ -187,6 +187,8 @@ void ivedimas(vector<Stud> &studentai, int &meniuPasirinkimas)
             vardoGeneravimas(laik);
             pazymiuGeneravimas(laik);
         }
+        laik.galutinisSuVidurkiu = (vidurkis(laik.nd) * 0.4) + (laik.egz * 0.6);
+        laik.galutinisSuMediana = (mediana(laik.nd) * 0.4) + (laik.egz * 0.6);
         studentai.push_back(laik);
         while (true)
         {
@@ -297,6 +299,8 @@ void nuskaitymasSuBuferiu(vector<Stud> &studentai, string failoPavadinimas)
             }
             studentas.egz = studentas.nd.back();
             studentas.nd.pop_back();
+            studentas.galutinisSuVidurkiu = (vidurkis(studentas.nd) * 0.4) + (studentas.egz * 0.6);
+            studentas.galutinisSuMediana = (mediana(studentas.nd) * 0.4) + (studentas.egz * 0.6);
             studentai.push_back(studentas);
         }
     }
@@ -313,12 +317,12 @@ void isvedimas(vector<Stud> studentai, int galutinioBaloPasirinkimas, ostream &i
     buferis << "--------------------------------------------------------------" << endl;
     for (Stud i : studentai)
     {
-        buferis << setw(12) << i.vardas;
+        buferis << setw(16) << i.vardas;
         buferis << setw(16) << i.pavarde;
         if (galutinioBaloPasirinkimas == 1)
-            buferis << setw(20) << fixed << setprecision(2) << (vidurkis(i.nd) * 0.4) + (i.egz * 0.6) << endl;
+            buferis << setw(20) << fixed << setprecision(2) << i.galutinisSuVidurkiu << endl;
         else
-            buferis << setw(20) << fixed << setprecision(2) << (mediana(i.nd) * 0.4) + (i.egz * 0.6) << endl;
+            buferis << setw(20) << fixed << setprecision(2) << i.galutinisSuMediana << endl;
     }
 
     isvedimoBudas << buferis.rdbuf();
@@ -336,12 +340,12 @@ bool pagalPavarde(Stud &a, Stud &b)
 
 bool pagalVidurki(Stud &a, Stud &b)
 {
-    return (vidurkis(b.nd) * 0.4) + (b.egz * 0.6) > (vidurkis(a.nd) * 0.4) + (a.egz * 0.6);
+    return b.galutinisSuVidurkiu > a.galutinisSuVidurkiu;
 }
 
 bool pagalMediana(Stud &a, Stud &b)
 {
-    return (mediana(b.nd) * 0.4) + (b.egz * 0.6) > (mediana(a.nd) * 0.4) + (a.egz * 0.6);
+    return b.galutinisSuMediana > a.galutinisSuMediana;
 }
 
 void testas(string failoPavadinimas)
@@ -455,13 +459,13 @@ string failoPasirinkimas(string klausimas)
     return failuPavadinimai[failoNumeris - 1];
 }
 
-void failoGeneravimas(int failoIlgis, string &sugeneruotasFailas)
+void failoGeneravimas(int failoIlgis)
 {
     std::mt19937 mt(static_cast<long unsigned int>(std::chrono::high_resolution_clock::now().time_since_epoch().count()));
     std::uniform_int_distribution<int> pazymiuKiekis(1, 20);
     std::uniform_int_distribution<int> pazymys(1, 10);
     ofstream fout;
-    sugeneruotasFailas = "studentai" + to_string(failoIlgis) + ".txt";
+    string sugeneruotasFailas = "studentai" + to_string(failoIlgis) + ".txt";
     stringstream buferis;
     buferis << setw(15) << left << "Vardas" << setw(18) << "Pavarde" << setw(10);
     int k = pazymiuKiekis(mt);
@@ -480,7 +484,7 @@ void failoGeneravimas(int failoIlgis, string &sugeneruotasFailas)
         }
     }
     fout.open(sugeneruotasFailas);
-    fout << buferis.rdbuf();
+    fout << buferis.str();
     fout.close();
 }
 
@@ -534,6 +538,7 @@ void isskaidymasIGrupes(vector<Stud> studentai, vector<Stud> &protingi, vector<S
                 neprotingi.push_back(s);
         }
     }
+    studentai.clear();
 }
 
 void tyrimas(vector<Stud> studentai)
@@ -545,42 +550,53 @@ void tyrimas(vector<Stud> studentai)
     cout << "1" << endl;
     cout << "2" << endl;
     cin >> tyrimoPasirinkimas;
-    if(tyrimoPasirinkimas==1) int galutinisBalas = galutinioBaloPasirinkimas();
     for (int i = 0; i < 5; i++)
     {
-        if (tyrimoPasirinkimas == 1)
+        double vid = 0;
+        for (int j = 0; j < 3; j++)
         {
-            auto t1 = std::chrono::high_resolution_clock::now();
-            failoGeneravimas(dydzioPasirinkimas, sugeneruotasFailas);
-            auto t2 = std::chrono::high_resolution_clock::now();
-            cout << dydzioPasirinkimas << " studentu failo sugeneravimas truko " << (t2 - t1) / 1.0s << " " << endl;
+            auto pradzia = std::chrono::high_resolution_clock::now();
+            if (tyrimoPasirinkimas == 1)
+            {
+                auto t1 = std::chrono::high_resolution_clock::now();
+                failoGeneravimas(dydzioPasirinkimas);
+                auto t2 = std::chrono::high_resolution_clock::now();
+                cout << dydzioPasirinkimas << " studentu failo sugeneravimas truko " << (t2 - t1) / 1.0s << " " << endl;
+            }
+            if (tyrimoPasirinkimas == 2)
+            {
+                vector<Stud> protingi;
+                vector<Stud> neprotingi;
+                auto t3 = std::chrono::high_resolution_clock::now();
+                nuskaitymasSuBuferiu(studentai, "studentai" + to_string(dydzioPasirinkimas) + ".txt");
+                auto t4 = std::chrono::high_resolution_clock::now();
+                cout << "Failo nuskaitymas truko: " << (t4 - t3) / 1.0s << " s." << endl;
+                sort(studentai.begin(), studentai.end(), pagalVidurki);
+                auto t5 = std::chrono::high_resolution_clock::now();
+                cout << "Studentu vektoriaus surusiavimas truko: " << (t5 - t4) / 1.0s << " s." << endl;
+                isskaidymasIGrupes(studentai, protingi, neprotingi, 1);
+                auto t6 = std::chrono::high_resolution_clock::now();
+                cout << "Isskaidymas pagal galutini bala truko: " << (t6 - t5) / 1.0s << " s." << endl;
+                ofstream fout;
+                fout.open("protingi" + to_string(dydzioPasirinkimas) + ".txt");
+                isvedimas(protingi, 1, fout);
+                fout.close();
+                auto t7 = std::chrono::high_resolution_clock::now();
+                cout << "Protingu vektoriaus isvedimas i faila truko " << (t7 - t6) / 1.0s << " s." << endl;
+                fout.open("neprotingi" + to_string(dydzioPasirinkimas) + ".txt");
+                isvedimas(neprotingi, 1, fout);
+                fout.close();
+                auto t8 = std::chrono::high_resolution_clock::now();
+                cout << "Neprotingu vektoriaus isvedimas i faila truko " << (t8 - t7) / 1.0s << " s." << endl;
+                cout << "Visas procesas su " << dydzioPasirinkimas << " studentu truko " << (t8 - t3) / 1.0s << " s." << endl;
+                cout << endl;
+            }
+            auto pabaiga = std::chrono::high_resolution_clock::now();
+            double trukme = ((pabaiga - pradzia) / 1.0s);
+            vid += trukme;
         }
-        if (tyrimoPasirinkimas == 2)
-        {
-            vector<Stud> protingi;
-            vector<Stud> neprotingi;
-            auto t3=std::chrono::high_resolution_clock::now();
-            nuskaitymasSuBuferiu(studentai, "studentai"+to_string(dydzioPasirinkimas)+".txt");
-            auto t4 = std::chrono::high_resolution_clock::now();
-            cout << "Failo nuskaitymas truko: " << (t4 - t3) / 1.0s << " s." << endl;
-            auto t5 = std::chrono::high_resolution_clock::now();
-            isskaidymasIGrupes(studentai, protingi, neprotingi, galutinisBalas);
-            auto t6 = std::chrono::high_resolution_clock::now();
-            cout << "Isskaidymas pagal galutini bala truko: " << (t6 - t5) / 1.0s << " s." << endl;
-            ofstream fout;
-            fout.open("protingi.txt");
-            isvedimas(protingi, galutinisBalas, fout);
-            fout.close();
-            auto t7 = std::chrono::high_resolution_clock::now();
-            cout << "Protingu vektoriaus isvedimas i faila truko " << (t7 - t6) / 1.0s << " s." << endl;
-            fout.open("neprotingi.txt");
-            isvedimas(neprotingi, galutinisBalas, fout);
-            fout.close();
-            auto t8 = std::chrono::high_resolution_clock::now();
-            cout << "Neprotingu vektoriaus isvedimas i faila truko " << (t8 - t7) / 1.0s << " s." << endl;
-            cout << "Visas procesas su " << dydzioPasirinkimas << " studentu truko " << (t8 - t3) / 1.0s << " s." << endl;
-            cout << endl;
-        }
+        cout << "Vidutiniskai tyrimas su " << dydzioPasirinkimas << " studentu uztruko " << vid / 3 << " s." << endl;
+        cout << endl;
         dydzioPasirinkimas *= 10;
     }
 }

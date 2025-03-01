@@ -28,4 +28,6 @@ struct Stud
     string vardas, pavarde;
     vector<int> nd;
     int egz;
+    double galutinisSuVidurkiu;
+    double galutinisSuMediana;
 };
