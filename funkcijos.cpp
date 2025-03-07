@@ -592,7 +592,7 @@ void tyrimas(vector<Stud> studentai)
                 cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 throw "Įvedėte ne skaičių!";
             }
-            else if (tyrimoPasirinkimas < 1 || tyrimoPasirinkimas > 2)
+            else if (kiekioPasirinkimas < 1)
                 throw "Įvedėte netinkamą skaičių!";
             else
                 break;
@@ -635,11 +635,13 @@ void tyrimas(vector<Stud> studentai)
                 fout.open("protingi" + to_string(dydzioPasirinkimas) + ".txt");
                 isvedimas(protingi, 1, fout);
                 fout.close();
+                protingi.clear();
                 auto t7 = std::chrono::high_resolution_clock::now();
                 cout << "Protingu vektoriaus isvedimas i faila truko " << (t7 - t6) / 1.0s << " s." << endl;
                 fout.open("neprotingi" + to_string(dydzioPasirinkimas) + ".txt");
                 isvedimas(neprotingi, 1, fout);
                 fout.close();
+                neprotingi.clear();
                 auto t8 = std::chrono::high_resolution_clock::now();
                 cout << "Neprotingu vektoriaus isvedimas i faila truko " << (t8 - t7) / 1.0s << " s." << endl;
                 cout << "Visas procesas su " << dydzioPasirinkimas << " studentu truko " << (t8 - t3) / 1.0s << " s." << endl;
