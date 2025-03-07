@@ -263,7 +263,7 @@ void nuskaitymasSuBuferiu(vector<Stud> &studentai, string failoPavadinimas)
         catch (const char *e)
         {
             cout << e << endl;
-            failoPavadinimas = failoPasirinkimas("Įveskite kitą failo pavadinimą: ");
+            failoPavadinimas = failoPasirinkimas("Pasirinkite kitą failą: ");
             continue;
         }
     }
@@ -366,7 +366,8 @@ void testas(string failoPavadinimas)
     cout << "Vidutinis laikas: " << vidurkis / 3 << " s." << endl;
 }
 
-int rusiavimoPasirinkimas(){
+int rusiavimoPasirinkimas()
+{
     int pasirinkimas;
     while (true)
     {
@@ -548,7 +549,7 @@ void isskaidymasIGrupes(vector<Stud> studentai, vector<Stud> &protingi, vector<S
 void tyrimas(vector<Stud> studentai)
 {
     int dydzioPasirinkimas = 1000;
-    int tyrimoPasirinkimas, rusPasirinkimas;
+    int tyrimoPasirinkimas, rusPasirinkimas, kiekioPasirinkimas;
     string sugeneruotasFailas;
     while (true)
     {
@@ -575,13 +576,38 @@ void tyrimas(vector<Stud> studentai)
             continue;
         }
     }
-    if(tyrimoPasirinkimas==2){
-        rusPasirinkimas=rusiavimoPasirinkimas();
+    if (tyrimoPasirinkimas == 2)
+    {
+        rusPasirinkimas = rusiavimoPasirinkimas();
     }
+    while (true)
+    {
+        try
+        {
+            cout << "Kiek kartu nori atlikti tyrima?" << endl;
+            cin >> kiekioPasirinkimas;
+            if (cin.fail())
+            {
+                cin.clear();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                throw "Įvedėte ne skaičių!";
+            }
+            else if (tyrimoPasirinkimas < 1 || tyrimoPasirinkimas > 2)
+                throw "Įvedėte netinkamą skaičių!";
+            else
+                break;
+        }
+        catch (const char *e)
+        {
+            cout << e << endl;
+            continue;
+        }
+    }
+
     for (int i = 0; i < 5; i++)
     {
         double vid = 0;
-        for (int j = 0; j < 3; j++)
+        for (int j = 0; j < kiekioPasirinkimas; j++)
         {
             auto pradzia = std::chrono::high_resolution_clock::now();
             if (tyrimoPasirinkimas == 1)
@@ -622,7 +648,7 @@ void tyrimas(vector<Stud> studentai)
             auto pabaiga = std::chrono::high_resolution_clock::now();
             vid += ((pabaiga - pradzia) / 1.0s);
         }
-        cout << "Vidutiniskai tyrimas su " << dydzioPasirinkimas << " studentu uztruko " << vid / 3 << " s." << endl;
+        cout << "Vidutiniskai tyrimas su " << dydzioPasirinkimas << " studentu uztruko " << vid / kiekioPasirinkimas << " s." << endl;
         cout << endl;
         dydzioPasirinkimas *= 10;
     }
