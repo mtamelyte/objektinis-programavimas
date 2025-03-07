@@ -549,7 +549,7 @@ void isskaidymasIGrupes(vector<Stud> studentai, vector<Stud> &protingi, vector<S
 void tyrimas(vector<Stud> studentai)
 {
     int dydzioPasirinkimas = 1000;
-    int tyrimoPasirinkimas, rusPasirinkimas, kiekioPasirinkimas;
+    int tyrimoPasirinkimas, rusPasirinkimas, kiekioPasirinkimas, galBaloPasirinkimas;
     string sugeneruotasFailas;
     while (true)
     {
@@ -578,6 +578,7 @@ void tyrimas(vector<Stud> studentai)
     }
     if (tyrimoPasirinkimas == 2)
     {
+        galBaloPasirinkimas=galutinioBaloPasirinkimas();
         rusPasirinkimas = rusiavimoPasirinkimas();
     }
     while (true)
@@ -603,7 +604,6 @@ void tyrimas(vector<Stud> studentai)
             continue;
         }
     }
-
     for (int i = 0; i < 5; i++)
     {
         double vid = 0;
@@ -628,18 +628,18 @@ void tyrimas(vector<Stud> studentai)
                 rusiavimas(studentai, rusPasirinkimas);
                 auto t5 = std::chrono::high_resolution_clock::now();
                 cout << "Studentu vektoriaus surusiavimas truko: " << (t5 - t4) / 1.0s << " s." << endl;
-                isskaidymasIGrupes(studentai, protingi, neprotingi, 1);
+                isskaidymasIGrupes(studentai, protingi, neprotingi, galBaloPasirinkimas);
                 auto t6 = std::chrono::high_resolution_clock::now();
                 cout << "Isskaidymas pagal galutini bala truko: " << (t6 - t5) / 1.0s << " s." << endl;
                 ofstream fout;
                 fout.open("protingi" + to_string(dydzioPasirinkimas) + ".txt");
-                isvedimas(protingi, 1, fout);
+                isvedimas(protingi, galBaloPasirinkimas, fout);
                 fout.close();
                 protingi.clear();
                 auto t7 = std::chrono::high_resolution_clock::now();
                 cout << "Protingu vektoriaus isvedimas i faila truko " << (t7 - t6) / 1.0s << " s." << endl;
                 fout.open("neprotingi" + to_string(dydzioPasirinkimas) + ".txt");
-                isvedimas(neprotingi, 1, fout);
+                isvedimas(neprotingi, galBaloPasirinkimas, fout);
                 fout.close();
                 neprotingi.clear();
                 auto t8 = std::chrono::high_resolution_clock::now();
