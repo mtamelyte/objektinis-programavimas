@@ -22,12 +22,12 @@ using std::ostringstream;
 using std::runtime_error;
 using std::ostream;
 using std::to_string;
-
-template <typename Container>
+using std::list;
+using std::deque;
 struct Stud
 {
     string vardas, pavarde;
-    Container nd;
+    vector<int> nd;
     int egz;
     double galutinisSuVidurkiu;
     double galutinisSuMediana;

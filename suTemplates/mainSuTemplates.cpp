@@ -1,12 +1,13 @@
-#include "mano_lib.h"
-#include "antrastes.h"
+#include "antrastesSuTemplates.h"
+#include "antrastesBeTemplates.h"
 
 int main()
 {
     srand(time(NULL));
     std::setlocale(LC_ALL, "en_US.UTF-8");
-    int meniuPasirinkimas;
-    vector<Stud> studentai;
+    int meniuPasirinkimas, tipoPasirinkimas;
+    vector <Stud> studentai;
+
     while (true)
     {
         try
@@ -85,8 +86,41 @@ int main()
     }
     break;
     case 6:
-    {   
-        tyrimas(studentai);
+    {   while (true)
+        {
+            try
+            {
+                cout << "Su kokiais konteineriais norėtum atlikti tyrimą?" << endl;
+                cout << "1 - vector" << endl;
+                cout << "2 - list" << endl;
+                cout << "3 - deque" << endl;
+                cin >> tipoPasirinkimas;
+                if (cin.fail())
+                {
+                    cin.clear();
+                    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    throw "Įvedėte ne skaičių!";
+                }
+                else if (tipoPasirinkimas < 1 || tipoPasirinkimas > 3)
+                    throw "Įvedėte netinkamą skaičių!";
+                else
+                    break;
+            }
+            catch (const char *e)
+            {
+                cout << e << endl;
+                continue;
+            }
+        }
+        if(tipoPasirinkimas==1) tyrimas(studentai);
+        else if(tipoPasirinkimas==2) {
+            list <Stud> laikStudentai;
+            tyrimas(laikStudentai);
+        }
+        else {
+            deque <Stud> laikStudentai;
+            tyrimas(laikStudentai);
+        }
     }
     case 7:
     {
