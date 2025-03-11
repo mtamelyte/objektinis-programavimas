@@ -253,7 +253,7 @@ void tyrimas(Container &studentai)
                 cout << "Studentu vektoriaus surusiavimas truko: " << (t5 - t4) / 1.0s << " s." << endl;
                 isskaidymasIGrupes(studentai, protingi, neprotingi, galBaloPasirinkimas);
                 auto t6 = std::chrono::high_resolution_clock::now();
-                cout << "Isskaidymas pagal galutini bala truko: " << (t6 - t5) / 1.0s << " s." << endl;
+                cout << "Isskaidymas pagal galutini bala truko: " << (t6 - t5) / 1.0s << " s." << endl;/*
                 ofstream fout;
                 fout.open("protingi" + to_string(dydzioPasirinkimas) + ".txt");
                 isvedimas(protingi, galBaloPasirinkimas, fout);
@@ -266,7 +266,7 @@ void tyrimas(Container &studentai)
                 auto t8 = std::chrono::high_resolution_clock::now();
                 cout << "Neprotingu vektoriaus isvedimas i faila truko " << (t8 - t7) / 1.0s << " s." << endl;
                 cout << "Visas procesas su " << dydzioPasirinkimas << " studentu truko " << (t8 - t3) / 1.0s << " s." << endl;
-                cout << endl;
+                cout << endl;*/
             }
             auto pabaiga = std::chrono::high_resolution_clock::now();
             vid += ((pabaiga - pradzia) / 1.0s);
