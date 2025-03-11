@@ -22,6 +22,8 @@ using std::ostringstream;
 using std::runtime_error;
 using std::ostream;
 using std::to_string;
+using std::list;
+using std::deque;
 
 struct Stud
 {
