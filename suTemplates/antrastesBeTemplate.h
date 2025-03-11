@@ -1,0 +1,12 @@
+void vardoIvedimas(Stud &laik);
+void pazymiuIvedimas(Stud &laik);
+void vardoGeneravimas(Stud &laik);
+void pazymiuGeneravimas(Stud &laik);
+bool pagalVarda(Stud &a, Stud &b);
+bool pagalPavarde(Stud &a, Stud &b);
+bool pagalVidurki(Stud &a, Stud &b);
+bool pagalMediana(Stud &a, Stud &b);
+void testas(string failoPavadinimas);
+int rusiavimoPasirinkimas();
+void failoGeneravimas(int failoIlgis, string & sugeneruotasFailas);
+int galutinioBaloPasirinkimas();

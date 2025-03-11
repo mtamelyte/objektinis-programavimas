@@ -169,7 +169,8 @@ void pazymiuGeneravimas(Stud &laik)
     }
 }
 
-void ivedimas(vector<Stud> &studentai, int &meniuPasirinkimas)
+template <typename Container>
+void ivedimas(Container &studentai, int &meniuPasirinkimas)
 {
     bool naujasStudentas = true;
     int pasirinkimas;
@@ -220,7 +221,8 @@ void ivedimas(vector<Stud> &studentai, int &meniuPasirinkimas)
     }
 }
 
-double vidurkis(vector<int> nd)
+template <typename Container>
+double vidurkis(Container nd)
 {
     double suma = 0;
     for (int i : nd)
@@ -230,7 +232,8 @@ double vidurkis(vector<int> nd)
     return suma / nd.size();
 }
 
-double mediana(vector<int> nd)
+template <typename Container>
+double mediana(Container nd)
 {
     int dydis;
     sort(nd.begin(), nd.end());
@@ -241,7 +244,8 @@ double mediana(vector<int> nd)
         return nd[floor(nd.size() / 2)];
 }
 
-void nuskaitymasSuBuferiu(vector<Stud> &studentai, string failoPavadinimas)
+template <typename Container>
+void nuskaitymasSuBuferiu(Container &studentai, string failoPavadinimas)
 {
     vector<string> laik;
     Stud studentas;
@@ -306,7 +310,8 @@ void nuskaitymasSuBuferiu(vector<Stud> &studentai, string failoPavadinimas)
     }
 }
 
-void isvedimas(vector<Stud> & studentai, int galutinioBaloPasirinkimas, ostream &isvedimoBudas)
+template <typename Container>
+void isvedimas(Container & studentai, int galutinioBaloPasirinkimas, ostream &isvedimoBudas)
 {
     stringstream buferis;
     buferis << setw(12) << left << "Vardas" << setw(16) << "Pavardė";
@@ -399,7 +404,8 @@ int rusiavimoPasirinkimas()
     return pasirinkimas;
 }
 
-void rusiavimas(vector<Stud> &studentai, int pasirinkimas)
+template <typename Container>
+void rusiavimas(Container &studentai, int pasirinkimas)
 {
     if (pasirinkimas == 1)
         sort(studentai.begin(), studentai.end(), pagalVarda);
@@ -524,7 +530,8 @@ int galutinioBaloPasirinkimas()
     return pasirinkimas;
 }
 
-void isskaidymasIGrupes(vector<Stud> & studentai, vector<Stud> &protingi, vector<Stud> &neprotingi, int galutinisBalas)
+template <typename Container>
+void isskaidymasIGrupes(Container & studentai, Container &protingi, Container &neprotingi, int galutinisBalas)
 {
     for (Stud s : studentai)
     {
@@ -548,7 +555,8 @@ void isskaidymasIGrupes(vector<Stud> & studentai, vector<Stud> &protingi, vector
     studentai.clear();
 }
 
-void tyrimas(vector<Stud> & studentai)
+template <typename Container>
+void tyrimas(Container & studentai)
 {
     int dydzioPasirinkimas = 1000;
     int tyrimoPasirinkimas, rusPasirinkimas, kiekioPasirinkimas, galBaloPasirinkimas;
