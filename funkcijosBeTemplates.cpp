@@ -181,12 +181,12 @@ bool pagalPavarde(Stud &a, Stud &b)
 
 bool pagalVidurki(Stud &a, Stud &b)
 {
-    return b.galutinisSuVidurkiu > a.galutinisSuVidurkiu;
+    return b.galutinisSuVidurkiu < a.galutinisSuVidurkiu;
 }
 
 bool pagalMediana(Stud &a, Stud &b)
 {
-    return b.galutinisSuMediana > a.galutinisSuMediana;
+    return b.galutinisSuMediana < a.galutinisSuMediana;
 }
 
 void testas(string failoPavadinimas)

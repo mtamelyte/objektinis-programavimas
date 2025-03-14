@@ -171,8 +171,7 @@ void rusiavimas(Container &studentai, int pasirinkimas)
 template <typename Container>
 void tyrimas(Container &studentai)
 {
-    int dydzioPasirinkimas = 1000;
-    int tyrimoPasirinkimas, rusPasirinkimas, kiekioPasirinkimas, galBaloPasirinkimas;
+    int tyrimoPasirinkimas, rusPasirinkimas, kiekioPasirinkimas, galBaloPasirinkimas, skirstymoPasirinkimas;
     string sugeneruotasFailas;
     while (true)
     {
@@ -199,9 +198,34 @@ void tyrimas(Container &studentai)
             continue;
         }
     }
+    while (true)
+    {
+        try
+        {
+            cout << "Kuria rusiavimo strategija noretum naudoti?" << endl;
+            cout << "1" << endl;
+            cout << "2" << endl;
+            cout << "3" << endl;
+            cin >> skirstymoPasirinkimas;
+            if (cin.fail())
+            {
+                cin.clear();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                throw "Įvedėte ne skaičių!";
+            }
+            else if (skirstymoPasirinkimas < 1 || skirstymoPasirinkimas > 3)
+                throw "Įvedėte netinkamą skaičių!";
+            else
+                break;
+        }
+        catch (const char *e)
+        {
+            cout << e << endl;
+            continue;
+        }
+    }
     if (tyrimoPasirinkimas == 2)
     {
-        galBaloPasirinkimas = galutinioBaloPasirinkimas();
         rusPasirinkimas = rusiavimoPasirinkimas();
     }
     while (true)
@@ -227,7 +251,7 @@ void tyrimas(Container &studentai)
             continue;
         }
     }
-    for (int i = 0; i < 5; i++)
+    for (int dydzioPasirinkimas = 1000; dydzioPasirinkimas <= 10000000; dydzioPasirinkimas *= 10)
     {
         double vid = 0;
         for (int j = 0; j < kiekioPasirinkimas; j++)
@@ -248,37 +272,43 @@ void tyrimas(Container &studentai)
                 nuskaitymasSuBuferiu(studentai, "studentai" + to_string(dydzioPasirinkimas) + ".txt");
                 auto t4 = std::chrono::high_resolution_clock::now();
                 cout << "Failo nuskaitymas truko: " << (t4 - t3) / 1.0s << " s." << endl;
-                rusiavimas(studentai, rusPasirinkimas);
-                auto t5 = std::chrono::high_resolution_clock::now();
-                cout << "Studentu vektoriaus surusiavimas truko: " << (t5 - t4) / 1.0s << " s." << endl;
-                isskaidymasIGrupes(studentai, protingi, neprotingi, galBaloPasirinkimas);
+                if (skirstymoPasirinkimas == 1)
+                    pirmaStrategija(studentai, protingi, neprotingi, 1);
+                else if (skirstymoPasirinkimas == 2)
+                    antraStrategija(studentai, neprotingi, 1);
                 auto t6 = std::chrono::high_resolution_clock::now();
-                cout << "Isskaidymas pagal galutini bala truko: " << (t6 - t5) / 1.0s << " s." << endl;/*
-                ofstream fout;
+                cout << "Isskaidymas pagal galutini bala truko: " << (t6 - t4) / 1.0s << " s." << endl;
+                rusiavimas(studentai, rusPasirinkimas);
+                rusiavimas(neprotingi, rusPasirinkimas);
+                auto t5 = std::chrono::high_resolution_clock::now();
+                cout << "Studentu konteinerio surusiavimas truko: " << (t5 - t6) / 1.0s << " s." << endl;
+                /*ofstream fout;
                 fout.open("protingi" + to_string(dydzioPasirinkimas) + ".txt");
-                isvedimas(protingi, galBaloPasirinkimas, fout);
+                if (skirstymoPasirinkimas == 1)
+                {
+                    isvedimas(protingi, 1, fout);
+                }
+                else if (skirstymoPasirinkimas == 2)
+                {
+                    isvedimas(studentai, 1, fout);
+                }
                 fout.close();
-                auto t7 = std::chrono::high_resolution_clock::now();
-                cout << "Protingu vektoriaus isvedimas i faila truko " << (t7 - t6) / 1.0s << " s." << endl;
+                protingi.clear();
                 fout.open("neprotingi" + to_string(dydzioPasirinkimas) + ".txt");
-                isvedimas(neprotingi, galBaloPasirinkimas, fout);
+                isvedimas(neprotingi, 1, fout);
                 fout.close();
-                auto t8 = std::chrono::high_resolution_clock::now();
-                cout << "Neprotingu vektoriaus isvedimas i faila truko " << (t8 - t7) / 1.0s << " s." << endl;
-                cout << "Visas procesas su " << dydzioPasirinkimas << " studentu truko " << (t8 - t3) / 1.0s << " s." << endl;
-                cout << endl;*/
+                neprotingi.clear();*/
             }
             auto pabaiga = std::chrono::high_resolution_clock::now();
             vid += ((pabaiga - pradzia) / 1.0s);
         }
         cout << "Vidutiniskai tyrimas su " << dydzioPasirinkimas << " studentu uztruko " << vid / kiekioPasirinkimas << " s." << endl;
         cout << endl;
-        dydzioPasirinkimas *= 10;
     }
 }
 
 template <typename Container>
-void isskaidymasIGrupes(Container &studentai, Container &protingi, Container &neprotingi, int galutinisBalas)
+void pirmaStrategija(Container &studentai, Container &protingi, Container &neprotingi, int galutinisBalas)
 {
     for (Stud s : studentai)
     {
@@ -297,10 +327,50 @@ void isskaidymasIGrupes(Container &studentai, Container &protingi, Container &ne
                 neprotingi.push_back(s);
         }
     }
-    if constexpr (std::is_same_v < Container, vector<Stud>>)
+    if constexpr (std::is_same_v<Container, vector<Stud>>)
     {
         protingi.shrink_to_fit();
         neprotingi.shrink_to_fit();
     }
     studentai.clear();
+}
+
+template <typename Container>
+void antraStrategija(Container &studentai, Container &neprotingi, int galutinisBalas)
+{
+    rusiavimas(studentai, 3);
+    auto it = studentai.end();
+    for (it = studentai.end(); it != studentai.begin(); it--)
+    {
+        if (it->galutinisSuVidurkiu < 5)
+        {
+            neprotingi.push_back(studentai.back());
+            studentai.pop_back();
+        }
+    }
+    if constexpr (std::is_same_v<Container, vector<Stud>>)
+    {
+        neprotingi.shrink_to_fit();
+        studentai.shrink_to_fit();
+    }
+}
+
+template <typename Container>
+void treciaStrategija(Container &studentai, Container &protingi, Container &neprotingi, int galutinisBalas)
+{
+    rusiavimas(studentai, 3);
+    auto it = studentai.end();
+    for (it = studentai.end(); it != studentai.begin(); it--)
+    {
+        if (it->galutinisSuVidurkiu < 5)
+        {
+            neprotingi.push_back(studentai.back());
+            studentai.pop_back();
+        }
+    }
+    if constexpr (std::is_same_v<Container, vector<Stud>>)
+    {
+        neprotingi.shrink_to_fit();
+        studentai.shrink_to_fit();
+    }
 }
