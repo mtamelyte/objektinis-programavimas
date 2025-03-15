@@ -7,7 +7,6 @@ int main()
     std::setlocale(LC_ALL, "en_US.UTF-8");
     int meniuPasirinkimas, tipoPasirinkimas;
     vector <Stud> studentai;
-
     while (true)
     {
         try

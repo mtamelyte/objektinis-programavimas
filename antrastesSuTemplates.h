@@ -276,6 +276,7 @@ void tyrimas(Container &studentai)
                     pirmaStrategija(studentai, protingi, neprotingi, 1);
                 else if (skirstymoPasirinkimas == 2)
                     antraStrategija(studentai, neprotingi, 1);
+                else treciaStrategija(studentai, protingi, neprotingi, 1);
                 auto t6 = std::chrono::high_resolution_clock::now();
                 cout << "Isskaidymas pagal galutini bala truko: " << (t6 - t4) / 1.0s << " s." << endl;
                 rusiavimas(studentai, rusPasirinkimas);
@@ -358,19 +359,6 @@ void antraStrategija(Container &studentai, Container &neprotingi, int galutinisB
 template <typename Container>
 void treciaStrategija(Container &studentai, Container &protingi, Container &neprotingi, int galutinisBalas)
 {
-    rusiavimas(studentai, 3);
-    auto it = studentai.end();
-    for (it = studentai.end(); it != studentai.begin(); it--)
-    {
-        if (it->galutinisSuVidurkiu < 5)
-        {
-            neprotingi.push_back(studentai.back());
-            studentai.pop_back();
-        }
-    }
-    if constexpr (std::is_same_v<Container, vector<Stud>>)
-    {
-        neprotingi.shrink_to_fit();
-        studentai.shrink_to_fit();
-    }
+    rusiavimas(studentai, 1);
+    stable_partition(studentai.begin(), studentai.end(), [](Stud & a) { return a.galutinisSuVidurkiu < 5; });
 }
