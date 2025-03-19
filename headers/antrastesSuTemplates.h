@@ -289,10 +289,6 @@ void tyrimas(Container &studentai)
                 rusiavimas(neprotingi, rusPasirinkimas);
                 auto t5 = std::chrono::high_resolution_clock::now();
                 cout << "Studentu konteinerio surusiavimas truko: " << (t5 - t7) / 1.0s << " s." << endl;
-                for(Stud s : neprotingi)
-                {
-                    cout << s.galutinisSuVidurkiu << endl;
-                }
             }
             auto pabaiga = std::chrono::high_resolution_clock::now();
             vid += ((pabaiga - pradzia) / 1.0s);
