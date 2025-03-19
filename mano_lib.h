@@ -24,6 +24,7 @@ using std::ostream;
 using std::to_string;
 using std::list;
 using std::deque;
+using std::find;
 
 struct Stud
 {

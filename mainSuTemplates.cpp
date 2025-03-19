@@ -6,7 +6,7 @@ int main()
     srand(time(NULL));
     std::setlocale(LC_ALL, "en_US.UTF-8");
     int meniuPasirinkimas, tipoPasirinkimas;
-    vector <Stud> studentai;
+    vector <Stud> studentai;                                            
     while (true)
     {
         try
