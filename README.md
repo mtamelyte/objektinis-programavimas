@@ -1,11 +1,39 @@
-Kompiuterio specifikacijos:
+Programa leidžia įvesti arba sugeneruoti studentų duomenis bei pažymius, apskaičiuoti jų galutinius pažymius su vidurkiu arba mediana pasirinktinai, taip pat suskirstyti juos į du konteinerius, "protingi" ir "neprotingi", pagal vidurkį.
+
+# Programos paleidimo instrukcija:
+1. Kompiuteryje susiinstaliuoti [make](https://gnuwin32.sourceforge.net/packages/make.htm)
+2. Parsisiųsti relizą
+3. Per komandinę eilutę nunaviguoti į relizo direktoriją ir įvesti "make run"
+
+Paleidus programą naudotojui parodomas meniu su 7 pasirinkimais:
+
+1 - Suvesti duomenis ranka : Leidžia suvesti tiek studentų vardus, tiek pažymius ranka
+
+2 - Sugeneruoti pažymius: Leidžia įvesti studentų vardus, o pažymius programa sugeneruoja atsitiktinai
+
+3 - Sugeneruoti pažymius, vardus ir pavardes: Programa sugeneruoja tiek studentų vardus, tiek pažymius
+
+4 - Nuskaityti duomenis iš failo: Studentų duomenys yra nuskaitomi iš pasirinkto failo
+
+5 - Testuoti kodą ir išvesti 3 laikų vidurkį: Nuskaito pasirinktą studentų failą ir parodo, kiek laiko užtruko tai padaryti
+
+6 - Tirti funkcijas: suteikia galimybę atlikti du tyrimus: pirmas tyrimas sugeneruoja kelis skirtingų dydžių studentų failus ir parodo generavimo trukmę, o antras tyrimas perskaito sugeneruotus studentų failus ir ištiria jų nuskaitymo bei išskirstymo į protingus ir neprotingus studentus pagal pažymį spartą
+
+7 - Baigti darbą: Išjungia programą
+
+
+
+
+# Programos testavimas naudojant 6 funkciją:
+
+Testavimui naudojamo kompiuterio specifikacijos:
 
 |Procesorius | Intel(R) Core(TM) Ultra 7 155H|
 |------------|-------------------------------|
 | HDD        | SSD                           |
 | RAM        | SK Hynix 4GB x 8              |
 
-Tyrimas su vektoriais:
+# Tyrimas su vektoriais:
 
 
 |         | Pirma strategija | Antra strategija | Trečia strategija |
@@ -50,7 +78,7 @@ Tyrimas su vektoriais:
 
 
 
-Tyrimas su sąrašais:
+# Tyrimas su sąrašais:
 
 |         | Pirma strategija | Antra strategija | Trečia strategija |
 |---------|------------------|------------------|-------------------|
@@ -91,7 +119,7 @@ Tyrimas su sąrašais:
 
 ![Screenshot 2025-03-19 190155](https://github.com/user-attachments/assets/933cd70b-d6e7-4458-b616-7d8bbcb92fe7)
 
-Tyrimas su dėklais:
+# Tyrimas su dėklais:
 
 
 |         | Pirma strategija | Antra strategija | Trečia strategija |
