@@ -363,10 +363,8 @@ void antraStrategija(Container &studentai, Container &neprotingi, int galutinisB
 template <typename Container>
 void treciaStrategija(Container &studentai, Container &neprotingi, int galutinisBalas)
 {
-    stable_partition(studentai.begin(), studentai.end(), [](Stud &a)
-                     { return a.galutinisSuVidurkiu > 5; });
-    auto it = find_if(studentai.begin(), studentai.end(), [](Stud &a)
-                      { return a.galutinisSuVidurkiu < 5; });
+    stable_partition(studentai.begin(), studentai.end(), [](Stud &a){ return a.galutinisSuVidurkiu > 5; });
+    auto it = find_if(studentai.begin(), studentai.end(), [](Stud &a){ return a.galutinisSuVidurkiu < 5; });
     for (auto i = it; i != studentai.end(); i++)
     {
         neprotingi.push_back(*i);
