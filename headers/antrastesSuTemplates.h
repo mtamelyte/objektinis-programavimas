@@ -268,20 +268,20 @@ void tyrimas(Container &studentai)
             {
                 Container protingi;
                 Container neprotingi;
+    studentai.clear();
                 auto t3 = std::chrono::high_resolution_clock::now();
                 nuskaitymasSuBuferiu(studentai, "studentai" + to_string(dydzioPasirinkimas) + ".txt");
                 auto t4 = std::chrono::high_resolution_clock::now();
                 cout << "Failo nuskaitymas truko: " << (t4 - t3) / 1.0s << " s." << endl;
+                rusiavimas(studentai, 3);
                 if (skirstymoPasirinkimas == 1)
                     pirmaStrategija(studentai, protingi, neprotingi, 1);
                 else if (skirstymoPasirinkimas == 2)
-                    antraStrategija(studentai, neprotingi, 1);
+                    antraStrategija(studentai, neprotingi);
                 else
-                    treciaStrategija(studentai, neprotingi, 1);
-                auto t6 = std::chrono::high_resolution_clock::now();
-                cout << "Isskaidymas pagal galutini bala truko: " << (t6 - t4) / 1.0s << " s." << endl;
-                rusiavimas(studentai, 3);
-                auto t7 = std::chrono::high_resolution_clock::now();
+                    treciaStrategija(studentai, neprotingi);
+                    auto t7 = std::chrono::high_resolution_clock::now();
+                cout << "Isskaidymas pagal galutini bala truko: " << (t7 - t4) / 1.0s << " s." << endl;
                 if (skirstymoPasirinkimas == 1)
                     rusiavimas(protingi, rusPasirinkimas);
                 else
@@ -339,11 +339,10 @@ void pirmaStrategija(Container &studentai, Container &protingi, Container &nepro
         protingi.shrink_to_fit();
         neprotingi.shrink_to_fit();
     }
-    studentai.clear();
 }
 
 template <typename Container>
-void antraStrategija(Container &studentai, Container &neprotingi, int galutinisBalas)
+void antraStrategija(Container &studentai, Container &neprotingi)
 {
     for (auto it = studentai.end(); it != studentai.begin(); it--)
     {
@@ -361,13 +360,14 @@ void antraStrategija(Container &studentai, Container &neprotingi, int galutinisB
 }
 
 template <typename Container>
-void treciaStrategija(Container &studentai, Container &neprotingi, int galutinisBalas)
+void treciaStrategija(Container &studentai, Container &neprotingi)
 {
-    stable_partition(studentai.begin(), studentai.end(), [](Stud &a){ return a.galutinisSuVidurkiu > 5; });
-    auto it = find_if(studentai.begin(), studentai.end(), [](Stud &a){ return a.galutinisSuVidurkiu < 5; });
-    for (auto i = it; i != studentai.end(); i++)
+    auto it = stable_partition(studentai.begin(), studentai.end(), [](Stud &a){ return a.galutinisSuVidurkiu > 5; });
+    neprotingi.assign(it, studentai.end());
+    studentai.resize(std::distance(studentai.begin(), it));
+    if constexpr (std::is_same_v<Container, vector<Stud>>)
     {
-        neprotingi.push_back(*i);
+        neprotingi.shrink_to_fit();
+        studentai.shrink_to_fit();
     }
-    studentai.erase(it, studentai.end());
 }

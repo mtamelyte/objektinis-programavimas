@@ -8,16 +8,34 @@ Kompiuterio specifikacijos:
 Tyrimas su vektoriais:
 
 
-![Screenshot 2025-03-11 193329](https://github.com/user-attachments/assets/24cdb0f0-8bcc-449c-9fc7-1a9c5160ada6)
+|         | Pirma strategija | Antra strategija | Trečia strategija |
+|---------|------------------|------------------|-------------------|
+|1000     |  0.0346398 s.    |  0.0321874 s.    |  0.0271154 s.     |
+|10000    |  0.0588841 s.    |  0.0484614 s.    |  0.0532457 s.     |
+|100000   |  0.75594 s.      |  0.729521 s.     |  0.72437 s.       |
+|1000000  |  5.16762 s.      |  4.71562 s.      |  4.56433 s.       |
+|10000000 |  44.4975 s.      |  41.9814 s.      |  40.5489 s.       |
 
 
-Tyrimas su listais:
+Tyrimas su sąrašais:
+
+|         | Pirma strategija | Antra strategija | Trečia strategija |
+|---------|------------------|------------------|-------------------|
+|1000     | 0.0360853 s.     |                  |                   |
+|10000    | 0.0414789 s.     |                  |                   |
+|100000   | 0.769735 s.      |                  |                   |
+|1000000  | 5.61882 s.       |                  |                   |
+|10000000 | 48.6259 s.       |   47.7247 s.     |                   |
 
 
-![Screenshot 2025-03-11 193550](https://github.com/user-attachments/assets/512600c6-52c7-41cb-bd86-2105b8b8cad6)
+
+Tyrimas su dėklais:
 
 
-Tyrimas su deckais:
-
-
-![Screenshot 2025-03-11 194013](https://github.com/user-attachments/assets/34e228be-bedd-406d-947c-e957f87c8c77)
+|         | Pirma strategija | Antra strategija | Trečia strategija |
+|---------|------------------|------------------|-------------------|
+|1000     |                  |                  |                   |
+|10000    |                  |                  |                   |
+|100000   |                  |                  |                   |
+|1000000  |                  |                  |                   |
+|10000000 |                  |                  |                   |
