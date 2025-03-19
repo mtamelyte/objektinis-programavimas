@@ -1,5 +1,5 @@
-#include "antrastesSuTemplates.h"
-#include "antrastesBeTemplates.h"
+#include "headers/antrastesSuTemplates.h"
+#include "headers/antrastesBeTemplates.h"
 
 void vardoIvedimas(Stud &laik)
 {
