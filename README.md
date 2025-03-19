@@ -2,7 +2,7 @@ Programa leidžia įvesti arba sugeneruoti studentų duomenis bei pažymius, aps
 
 # Programos paleidimo instrukcija:
 1. Kompiuteryje susiinstaliuoti [make](https://gnuwin32.sourceforge.net/packages/make.htm)
-2. Parsisiųsti relizą
+2. Parsisiųsti relizą ir unzippinti parsisiųstus failus
 3. Per komandinę eilutę nunaviguoti į relizo direktoriją ir įvesti "make run"
 
 Paleidus programą naudotojui parodomas meniu su 7 pasirinkimais:
@@ -22,9 +22,9 @@ Paleidus programą naudotojui parodomas meniu su 7 pasirinkimais:
 7 - Baigti darbą: Išjungia programą
 
 
-
-
 # Programos testavimas naudojant 6 funkciją:
+
+Prieš pirmą kartą atliekant antrą tyrimą, privaloma bent kartą atlikti pirmą, kad būtų sugeneruoti failai, su kuriais būtų galima atlikti antrą tyrimą.
 
 Testavimui naudojamo kompiuterio specifikacijos:
 
