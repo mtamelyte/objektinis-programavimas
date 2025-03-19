@@ -268,7 +268,7 @@ void tyrimas(Container &studentai)
             {
                 Container protingi;
                 Container neprotingi;
-    studentai.clear();
+                studentai.clear();
                 auto t3 = std::chrono::high_resolution_clock::now();
                 nuskaitymasSuBuferiu(studentai, "studentai" + to_string(dydzioPasirinkimas) + ".txt");
                 auto t4 = std::chrono::high_resolution_clock::now();
@@ -280,7 +280,7 @@ void tyrimas(Container &studentai)
                     antraStrategija(studentai, neprotingi);
                 else
                     treciaStrategija(studentai, neprotingi);
-                    auto t7 = std::chrono::high_resolution_clock::now();
+                auto t7 = std::chrono::high_resolution_clock::now();
                 cout << "Isskaidymas pagal galutini bala truko: " << (t7 - t4) / 1.0s << " s." << endl;
                 if (skirstymoPasirinkimas == 1)
                     rusiavimas(protingi, rusPasirinkimas);
@@ -289,22 +289,10 @@ void tyrimas(Container &studentai)
                 rusiavimas(neprotingi, rusPasirinkimas);
                 auto t5 = std::chrono::high_resolution_clock::now();
                 cout << "Studentu konteinerio surusiavimas truko: " << (t5 - t7) / 1.0s << " s." << endl;
-                /*ofstream fout;
-                fout.open("protingi" + to_string(dydzioPasirinkimas) + ".txt");
-                if (skirstymoPasirinkimas == 1)
+                for(Stud s : neprotingi)
                 {
-                    isvedimas(protingi, 1, fout);
+                    cout << s.galutinisSuVidurkiu << endl;
                 }
-                else if (skirstymoPasirinkimas == 2)
-                {
-                    isvedimas(studentai, 1, fout);
-                }
-                fout.close();
-                protingi.clear();
-                fout.open("neprotingi" + to_string(dydzioPasirinkimas) + ".txt");
-                isvedimas(neprotingi, 1, fout);
-                fout.close();
-                neprotingi.clear();*/
             }
             auto pabaiga = std::chrono::high_resolution_clock::now();
             vid += ((pabaiga - pradzia) / 1.0s);
@@ -344,14 +332,11 @@ void pirmaStrategija(Container &studentai, Container &protingi, Container &nepro
 template <typename Container>
 void antraStrategija(Container &studentai, Container &neprotingi)
 {
-    for (auto it = studentai.end(); it != studentai.begin(); it--)
-    {
-        if (it->galutinisSuVidurkiu < 5)
+    while (studentai.back().galutinisSuVidurkiu < 5)
         {
             neprotingi.push_back(studentai.back());
             studentai.pop_back();
         }
-    }
     if constexpr (std::is_same_v<Container, vector<Stud>>)
     {
         neprotingi.shrink_to_fit();
@@ -362,7 +347,8 @@ void antraStrategija(Container &studentai, Container &neprotingi)
 template <typename Container>
 void treciaStrategija(Container &studentai, Container &neprotingi)
 {
-    auto it = stable_partition(studentai.begin(), studentai.end(), [](Stud &a){ return a.galutinisSuVidurkiu > 5; });
+    auto it = stable_partition(studentai.begin(), studentai.end(), [](Stud &a)
+                               { return a.galutinisSuVidurkiu >= 5; });
     neprotingi.assign(it, studentai.end());
     studentai.resize(std::distance(studentai.begin(), it));
     if constexpr (std::is_same_v<Container, vector<Stud>>)
